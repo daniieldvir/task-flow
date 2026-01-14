@@ -10,7 +10,12 @@ export default function TasksPanel() {
       <ul className={styles.taskList}>
         {tasks.map((task) => (
           <Card key={task.id}>
-            <DataPreview props={task} statusKey={task.status} />
+            <DataPreview
+              props={task}
+              title={task.name}
+              source={task.status}
+              statusKey={task.status}
+            />
           </Card>
         ))}
       </ul>

@@ -10,7 +10,12 @@ export default function AlartsPanel() {
       <ul className={styles.alartList}>
         {alarts.map((alart) => (
           <Card key={alart.id}>
-            <DataPreview props={alart} statusKey={alart.severity} />
+            <DataPreview
+              props={alart}
+              title={alart.title}
+              source={alart.severity}
+              statusKey={alart.severity}
+            />
           </Card>
         ))}
       </ul>
