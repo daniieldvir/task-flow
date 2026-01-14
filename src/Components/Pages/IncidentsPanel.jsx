@@ -1,10 +1,10 @@
-import { useLoaderData } from "react-router-dom";
 import Card from "../UI/Card";
 import DataPreview from "../UI/DataPreview";
+import { useData } from "../utils/DataContext";
 import styles from "./IncidentsPanel.module.scss";
 
 export default function IncidentsPanel() {
-  const incidents = useLoaderData() ?? [];
+  const { incidents } = useData();
   return (
     <div className={styles.incidentPanel}>
       <h2>Incidents</h2>

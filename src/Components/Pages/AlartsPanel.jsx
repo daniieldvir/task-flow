@@ -1,15 +1,15 @@
-import { useLoaderData } from "react-router-dom";
 import Card from "../UI/Card";
 import DataPreview from "../UI/DataPreview";
+import { useData } from "../utils/DataContext";
 import styles from "./AlartsPanel.module.scss";
 
 export default function AlartsPanel() {
-  const alarts = useLoaderData() ?? [];
+  const { alerts } = useData();
   return (
     <div className={styles.alartsPanel}>
       <h2>Alarts</h2>
       <ul className={styles.alartList}>
-        {alarts.map((alart) => (
+        {alerts.map((alart) => (
           <Card key={alart.id}>
             <DataPreview
               props={alart}

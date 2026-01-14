@@ -22,7 +22,7 @@ export default function SidebarNav() {
   return (
     <nav className={styles.sidebarNav}>
       {nav.map((n) => (
-        <div className={styles.navItem} key={n.id}>
+        <div className={styles.navItem} key={n.name}>
           <Button
             className={styles.navItem}
             label={n.name}

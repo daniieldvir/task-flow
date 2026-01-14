@@ -1,10 +1,10 @@
-import { useLoaderData } from "react-router-dom";
 import Card from "../UI/Card";
 import DataPreview from "../UI/DataPreview";
+import { useData } from "../utils/DataContext";
 import styles from "./TasksPanel.module.scss";
 
 export default function TasksPanel() {
-  const tasks = useLoaderData() ?? [];
+  const { tasks } = useData();
 
   return (
     <div className={styles.tasksPanel}>
