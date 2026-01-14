@@ -1,9 +1,36 @@
-.info {
+.overviewPanel {
+  width: 100%;
   display: flex;
-  gap: 10px;
-  .taskSummary,
-  .alertsSummary {
-    --card-width: 325px;
-    --card-height: 120px;
+  flex-direction: column;
+  gap: 20px;
+
+  .summaryInfo {
+    display: flex;
+    gap: 10px;
+
+    .summary {
+      --card-width: 332px;
+      --card-height: 120px;
+    }
+  }
+
+  .pies {
+    display: flex;
+    gap: 15px;
+    .chartsInfo {
+      --card-width: 500px;
+      --card-height: 350px;
+      text-align: center;
+
+      p {
+        padding-bottom: 10px;
+      }
+    }
+  }
+
+  .alertsSource {
+    --card-width: 1015px;
+    --card-height: 350px;
+    text-align: center;
   }
 }

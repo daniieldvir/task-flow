@@ -46,11 +46,7 @@ export default function StackedBar({
   const options = {
     responsive: true,
     plugins: {
-      legend: { position: "top" },
-      title: {
-        display: true,
-        text: `${stackKey} by ${categoryKey}`,
-      },
+      legend: { position: "bottom" },
     },
     scales: {
       x: { stacked: true },
@@ -61,7 +57,6 @@ export default function StackedBar({
   return (
     <div style={{ width: 500, height: 300 }}>
       <Bar key={JSON.stringify(chartData)} data={chartData} options={options} />
-      ;
     </div>
   );
 }

@@ -13,6 +13,7 @@ import {
   Tooltip,
 } from "chart.js";
 
+import PieChart from "../charts/PieChart";
 import ProgressBar from "../charts/ProgressBar";
 import Card from "../UI/Card";
 import StatCard from "../UI/StatCard";
@@ -31,6 +32,9 @@ ChartJS.register(
 
 export default function OverviewPanel() {
   const { tasks, alerts, incidents } = useData();
+  console.log("tasks", tasks);
+  console.log("alerts", alerts);
+  console.log("incidents", incidents);
 
   const countBy = (items, key, value) =>
     items.filter((item) => item[key] === value).length;
@@ -90,19 +94,36 @@ export default function OverviewPanel() {
   ];
 
   return (
-    <div className={styles.info}>
-      {cards.map((c, i) => (
-        <Card key={i} className={styles.taskSummary}>
-          <StatCard icon={c.icon} label={c.label} value={c.total} />
-          <ProgressBar
-            val1={c.progress[0].value}
-            val2={c.progress[1].value}
-            tooltipText1={c.progress[0].tooltip}
-            tooltipText2={c.progress[1].tooltip}
-            colors={{ val1: c.progress[0].color, val2: c.progress[1].color }}
+    <div className={styles.overviewPanel}>
+      <header className={styles.summaryInfo}>
+        {cards.map((c, i) => (
+          <Card key={i} className={styles.summary}>
+            <StatCard icon={c.icon} label={c.label} value={c.total} />
+            <ProgressBar
+              val1={c.progress[0].value}
+              val2={c.progress[1].value}
+              tooltipText1={c.progress[0].tooltip}
+              tooltipText2={c.progress[1].tooltip}
+              colors={{ val1: c.progress[0].color, val2: c.progress[1].color }}
+            />
+          </Card>
+        ))}
+      </header>
+      <div className={styles.pies}>
+        <Card className={styles.chartsInfo}>
+          <p>Tasks by status</p>
+          <PieChart data={tasks} value="status" />
+        </Card>
+        <Card className={styles.chartsInfo}>
+          <p>Incidents by severity</p>
+          <PieChart
+            data={incidents}
+            value="severity"
+            colors={["#ff0000", "orange", "rgb(57, 159, 254"]}
+            borderColors={["#ff0000", "orange", "rgb(57, 159, 254"]}
           />
         </Card>
-      ))}
+      </div>
     </div>
   );
 }
