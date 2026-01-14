@@ -5,7 +5,7 @@ export async function taskData() {
   return Array.isArray(resData) ? resData : [];
 }
 
-export async function alartsData() {
+export async function alertsData() {
   const response = await fetch("http://localhost:3000/api/alerts");
   if (!response.ok) throw new Error("Failed to fetch tasks");
   const resData = await response.json();

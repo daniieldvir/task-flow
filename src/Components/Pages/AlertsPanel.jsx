@@ -1,13 +1,13 @@
 import Card from "../UI/Card";
 import DataPreview from "../UI/DataPreview";
 import { useData } from "../utils/DataContext";
-import styles from "./AlartsPanel.module.scss";
+import styles from "./AlertsPanel.module.scss";
 
-export default function AlartsPanel() {
+export default function AlertsPanel() {
   const { alerts } = useData();
   return (
-    <div className={styles.alartsPanel}>
-      <h2>Alarts</h2>
+    <div className={styles.alertsPanel}>
+      <h2>Alerts</h2>
       <ul className={styles.alartList}>
         {alerts.map((alart) => (
           <Card key={alart.id}>

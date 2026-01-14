@@ -1,0 +1,15 @@
+.statCard {
+  .header {
+    display: flex;
+    gap: 8px;
+    padding-bottom: 10px;
+
+    span {
+      font-weight: 600;
+    }
+  }
+
+  .value {
+    font-size: 25px;
+  }
+}

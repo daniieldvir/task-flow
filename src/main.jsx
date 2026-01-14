@@ -1,7 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import AlartsPanel from "./components/pages/AlartsPanel";
+import AlertsPanel from "./components/pages/AlertsPanel";
 import IncidentsPanel from "./components/pages/IncidentsPanel";
 import OverviewPanel from "./components/pages/OverviewPanel";
 import TasksPanel from "./components/pages/TasksPanel";
@@ -16,7 +16,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <OverviewPanel /> },
       { path: "/tasks", element: <TasksPanel /> },
-      { path: "/alerts", element: <AlartsPanel /> },
+      { path: "/alerts", element: <AlertsPanel /> },
       {
         path: "/incidents",
         element: <IncidentsPanel />,

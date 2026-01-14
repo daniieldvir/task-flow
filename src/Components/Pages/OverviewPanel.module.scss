@@ -1,0 +1,9 @@
+.info {
+  display: flex;
+  gap: 10px;
+  .taskSummary,
+  .alertsSummary {
+    --card-width: 325px;
+    --card-height: 120px;
+  }
+}

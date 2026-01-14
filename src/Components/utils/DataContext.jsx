@@ -1,6 +1,6 @@
 // DataContext.jsx
 import { createContext, useContext, useEffect, useState } from "react";
-import { alartsData, incidentsData, taskData } from "./DataFetch";
+import { alertsData, incidentsData, taskData } from "./DataFetch";
 
 const DataContext = createContext();
 
@@ -10,7 +10,7 @@ export function DataProvider({ children }) {
   const [incidents, setIncidents] = useState([]);
 
   useEffect(() => {
-    alartsData().then(setAlerts);
+    alertsData().then(setAlerts);
     taskData().then(setTasks);
     incidentsData().then(setIncidents);
   }, []);
