@@ -1,0 +1,28 @@
+.status {
+  width: 70px;
+  text-align: center;
+  border-radius: 4px;
+
+  &.inprogress,
+  &.warning {
+    color: orange;
+  }
+
+  &.completed {
+    color: #007bff;
+  }
+
+  &.open,
+  &.resolved {
+    color: green;
+  }
+
+  /* Severity-specific colors */
+  &.info {
+    color: lightgray;
+  }
+
+  &.critical {
+    color: red;
+  }
+}

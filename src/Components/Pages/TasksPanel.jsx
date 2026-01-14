@@ -1,6 +1,6 @@
 import tasks from "../../assets/json/tasks.json";
-import TaskPreview from "../InnerComponents/TaskPreview";
 import Card from "../UI/Card";
+import DataPreview from "../UI/DataPreview";
 import styles from "./TasksPanel.module.scss";
 
 export default function TasksPanel() {
@@ -10,7 +10,7 @@ export default function TasksPanel() {
       <ul className={styles.taskList}>
         {tasks.map((task) => (
           <Card key={task.id}>
-            <TaskPreview props={task} />
+            <DataPreview props={task} statusKey={task.status} />
           </Card>
         ))}
       </ul>

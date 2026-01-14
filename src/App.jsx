@@ -9,7 +9,7 @@ import Header from "./Components/Structure/Header";
 import Sidebar from "./Components/Structure/Sidebar";
 
 function App() {
-  const [activeView, setActiveView] = useState("tasks");
+  const [activeView, setActiveView] = useState("alerts");
 
   return (
     <div className={style.App}>

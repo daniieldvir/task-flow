@@ -1,0 +1,11 @@
+.alartsPanel {
+  .alartList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  ul {
+    padding: 0;
+  }
+}

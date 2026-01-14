@@ -1,10 +1,10 @@
-.taskPreview {
+.dataPreview {
   display: flex;
   height: 100%;
   justify-content: space-between;
   flex-direction: column;
 
-  .taskName {
+  .name {
     font-size: 20px;
     padding-bottom: 10px;
   }
@@ -19,22 +19,10 @@
     text-overflow: ellipsis;
   }
 
-  .taskDetails {
+  .details {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     font-size: 12px;
-
-    .inprogress {
-      color: orange;
-    }
-
-    .completed {
-      color: #007bff;
-    }
-
-    .open {
-      color: green;
-    }
   }
 }
