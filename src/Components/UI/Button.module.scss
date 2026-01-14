@@ -1,4 +1,4 @@
-.button {
+button {
   width: 100%;
   border-radius: 999px;
   border: 1px solid transparent;
@@ -30,11 +30,11 @@
   &:active {
     transform: translateY(1px);
   }
-}
 
-.active {
-  background: linear-gradient(135deg, #1d4ed8, #0ea5e9);
-  border-color: transparent;
-  color: #eff6ff;
-  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.8);
+  &.active {
+    background: linear-gradient(135deg, #1d4ed8, #0ea5e9);
+    border-color: transparent;
+    color: #eff6ff;
+    box-shadow: 0 1px 10px rgba(37, 99, 235, 0.8);
+  }
 }
