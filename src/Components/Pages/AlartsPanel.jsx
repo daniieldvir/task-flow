@@ -1,9 +1,10 @@
-import alarts from "../../assets/json/alarts.json";
+import { useLoaderData } from "react-router-dom";
 import Card from "../UI/Card";
 import DataPreview from "../UI/DataPreview";
 import styles from "./AlartsPanel.module.scss";
 
 export default function AlartsPanel() {
+  const alarts = useLoaderData() ?? [];
   return (
     <div className={styles.alartsPanel}>
       <h2>Alarts</h2>
