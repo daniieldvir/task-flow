@@ -1,0 +1,42 @@
+.sidebarNav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+
+  .navItem {
+    width: 100%;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0.45rem 0.75rem;
+    font-size: 0.8rem;
+    text-transform: capitalize;
+    cursor: pointer;
+    transition:
+      background-color 0.16s ease,
+      border-color 0.16s ease,
+      color 0.16s ease,
+      transform 0.08s ease;
+
+    &:hover {
+      background: rgba(30, 64, 175, 0.32);
+      border-color: rgba(59, 130, 246, 0.8);
+      color: #eff6ff;
+    }
+
+    &:active {
+      transform: translateY(1px);
+    }
+  }
+
+  .navItemActive {
+    background: linear-gradient(135deg, #1d4ed8, #0ea5e9);
+    border-color: transparent;
+    color: #eff6ff;
+    box-shadow: 0 10px 22px rgba(37, 99, 235, 0.8);
+  }
+}

@@ -1,0 +1,23 @@
+.section {
+  padding: 0.7rem 0.6rem;
+  border-radius: 0.8rem;
+  background: radial-gradient(circle at top, #020617, #020617);
+  border: 1px solid rgba(51, 65, 85, 0.85);
+
+  .title {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #64748b;
+    margin: 0;
+    padding-bottom: 10px;
+  }
+
+  .body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: #e2e8f0;
+  }
+}

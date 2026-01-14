@@ -1,0 +1,51 @@
+.appHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 1.6rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+  backdrop-filter: blur(12px);
+  background: linear-gradient(
+    90deg,
+    rgba(15, 23, 42, 0.95),
+    rgba(15, 23, 42, 0.9),
+    rgba(30, 64, 175, 0.6)
+  );
+  box-shadow: 0 14px 35px rgba(15, 23, 42, 0.9);
+  z-index: 10;
+
+  .left {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: #f9fafb;
+    }
+
+    .subtitle {
+      font-size: 0.8rem;
+      color: #9ca3af;
+    }
+  }
+
+  .right {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+
+    .envPill {
+      font-size: 0.7rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      background: radial-gradient(circle at top left, #22c55e, #15803d);
+      color: #022c22;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+  }
+}

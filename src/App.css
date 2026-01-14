@@ -1,0 +1,233 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: radial-gradient(circle at top left, #1f2933 0, #020617 55%);
+  color: #e5e7eb;
+}
+
+.app-env-pill {
+  font-size: 0.7rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: radial-gradient(circle at top left, #22c55e, #15803d);
+  color: #022c22;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+
+.app-shell {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1rem 1.6rem 1.4rem;
+}
+
+.main {
+  border-radius: 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.55);
+  background: radial-gradient(circle at top left, #020617, #020617);
+  box-shadow:
+    0 20px 45px rgba(15, 23, 42, 0.9),
+    inset 0 0 0 1px rgba(15, 23, 42, 0.9);
+  padding: 1rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  height: 100%;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.4rem 0.1rem 0.8rem;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.9);
+}
+
+.panel-header h1 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.panel-description {
+  margin: 0.15rem 0 0;
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+.panel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.9rem;
+}
+
+.stat-card {
+  border-radius: 0.9rem;
+  padding: 0.85rem 0.9rem;
+  background: radial-gradient(circle at top, #020617, #020617);
+  border: 1px solid rgba(51, 65, 85, 0.9);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.stat-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.stat-sub {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.primary-button {
+  border-radius: 999px;
+  border: 1px solid transparent;
+  padding: 0.45rem 0.9rem;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #022c22;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  box-shadow: 0 12px 25px rgba(22, 163, 74, 0.65);
+}
+
+.primary-button:hover {
+  filter: brightness(1.05);
+}
+
+.ghost-button {
+  border-radius: 999px;
+  border: 1px solid rgba(55, 65, 81, 0.9);
+  padding: 0.28rem 0.75rem;
+  background: transparent;
+  color: #e5e7eb;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.ghost-button:hover {
+  background: rgba(15, 23, 42, 0.95);
+}
+
+.table-wrapper {
+  margin-top: 0.7rem;
+  border-radius: 0.8rem;
+  border: 1px solid rgba(51, 65, 85, 0.9);
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+thead {
+  background: rgba(15, 23, 42, 0.95);
+}
+
+th,
+td {
+  padding: 0.55rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(31, 41, 55, 0.95);
+}
+
+th {
+  font-weight: 500;
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+tbody tr:hover {
+  background: rgba(30, 64, 175, 0.2);
+}
+
+.badge {
+  border-radius: 999px;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.badge-critical {
+  background: rgba(239, 68, 68, 0.2);
+  color: #fecaca;
+}
+
+.badge-major {
+  background: rgba(249, 115, 22, 0.2);
+  color: #fed7aa;
+}
+
+.badge-open {
+  background: rgba(34, 197, 94, 0.2);
+  color: #bbf7d0;
+}
+
+.badge-progress {
+  background: rgba(59, 130, 246, 0.2);
+  color: #bfdbfe;
+}
+
+.list {
+  list-style: none;
+  padding: 0.7rem 0.15rem 0 0.15rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.7rem 0.7rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(51, 65, 85, 0.9);
+  background: radial-gradient(circle at top left, #020617, #020617);
+}
+
+.list-title {
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.list-meta {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+@media (max-width: 900px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .main {
+    order: 1;
+  }
+}

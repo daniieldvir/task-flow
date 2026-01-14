@@ -1,0 +1,16 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: radial-gradient(circle at top left, #020617, #020617);
+  border-radius: 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.55);
+  box-shadow:
+    0 20px 40px rgba(15, 23, 42, 0.9),
+    inset 0 0 0 1px rgba(15, 23, 42, 0.9);
+  padding: 0.9rem;
+
+  .sidebarTitle {
+    padding-bottom: 10px;
+  }
+}
