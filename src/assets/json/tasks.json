@@ -1,33 +1,242 @@
 [
-    {"id":1,"name":"Task 1","status":"Pending","description":"Complete the project proposal","createDate":"2026-01-01","author":"Alice"},
-    {"id":2,"name":"Task 2","status":"In Progress","description":"Design UI mockups","createDate":"2026-01-02","author":"Bob"},
-    {"id":3,"name":"Task 3","status":"Completed","description":"Setup project repository","createDate":"2026-01-03","author":"Charlie"},
-    {"id":4,"name":"Task 4","status":"Pending","description":"Write unit tests","createDate":"2026-01-04","author":"Dana"},
-    {"id":5,"name":"Task 5","status":"In Progress","description":"Integrate API endpoints","createDate":"2026-01-05","author":"Eve"},
-    {"id":6,"name":"Task 6","status":"Completed","description":"Deploy to staging","createDate":"2026-01-06","author":"Frank"},
-    {"id":7,"name":"Task 7","status":"Pending","description":"Update documentation","createDate":"2026-01-07","author":"Grace"},
-    {"id":8,"name":"Task 8","status":"In Progress","description":"Fix login bug","createDate":"2026-01-08","author":"Heidi"},
-    {"id":9,"name":"Task 9","status":"Completed","description":"Code review for module A","createDate":"2026-01-09","author":"Ivan"},
-    {"id":10,"name":"Task 10","status":"Pending","description":"Optimize database queries","createDate":"2026-01-10","author":"Judy"},
-    {"id":11,"name":"Task 11","status":"In Progress","description":"Design marketing banner","createDate":"2026-01-11","author":"Alice"},
-    {"id":12,"name":"Task 12","status":"Completed","description":"Set up CI/CD pipeline","createDate":"2026-01-12","author":"Bob"},
-    {"id":13,"name":"Task 13","status":"Pending","description":"Research new frameworks","createDate":"2026-01-13","author":"Charlie"},
-    {"id":14,"name":"Task 14","status":"In Progress","description":"Implement search feature","createDate":"2026-01-14","author":"Dana"},
-    {"id":15,"name":"Task 15","status":"Completed","description":"Update user guide","createDate":"2026-01-15","author":"Eve"},
-    {"id":16,"name":"Task 16","status":"Pending","description":"Prepare presentation slides","createDate":"2026-01-16","author":"Frank"},
-    {"id":17,"name":"Task 17","status":"In Progress","description":"Fix CSS layout issues","createDate":"2026-01-17","author":"Grace"},
-    {"id":18,"name":"Task 18","status":"Completed","description":"Merge feature branch","createDate":"2026-01-18","author":"Heidi"},
-    {"id":19,"name":"Task 19","status":"Pending","description":"Update server configuration","createDate":"2026-01-19","author":"Ivan"},
-    {"id":20,"name":"Task 20","status":"In Progress","description":"Write blog post","createDate":"2026-01-20","author":"Judy"},
-    {"id":21,"name":"Task 21","status":"Completed","description":"Conduct user testing","createDate":"2026-01-21","author":"Alice"},
-    {"id":22,"name":"Task 22","status":"Pending","description":"Refactor legacy code","createDate":"2026-01-22","author":"Bob"},
-    {"id":23,"name":"Task 23","status":"In Progress","description":"Create prototype for app","createDate":"2026-01-23","author":"Charlie"},
-    {"id":24,"name":"Task 24","status":"Completed","description":"Fix critical bugs","createDate":"2026-01-24","author":"Dana"},
-    {"id":25,"name":"Task 25","status":"Pending","description":"Conduct team meeting","createDate":"2026-01-25","author":"Eve"},
-    {"id":26,"name":"Task 26","status":"In Progress","description":"Analyze performance metrics","createDate":"2026-01-26","author":"Frank"},
-    {"id":27,"name":"Task 27","status":"Completed","description":"Submit project report","createDate":"2026-01-27","author":"Grace"},
-    {"id":28,"name":"Task 28","status":"Pending","description":"Plan next sprint","createDate":"2026-01-28","author":"Heidi"},
-    {"id":29,"name":"Task 29","status":"In Progress","description":"Integrate analytics tool","createDate":"2026-01-29","author":"Ivan"},
-    {"id":30,"name":"Task 30","status":"Completed","description":"Finalize project deliverables","createDate":"2026-01-30","author":"Judy"}
-  ]
-  
+  {
+    "id": 1,
+    "name": "Complete Project Proposal",
+    "status": "Open",
+    "description": "Draft the full project proposal including objectives, scope, timeline, risks, resource allocation, and budget considerations. Ensure that all stakeholders are consulted and that the document aligns with organizational goals, policies, and compliance requirements. This document will serve as the foundation for project approval and subsequent execution planning.",
+    "createDate": "2026-01-01",
+    "author": "Alice"
+  },
+  {
+    "id": 2,
+    "name": "Design User Interface Mockups",
+    "status": "In Progress",
+    "description": "Create detailed UI mockups for the upcoming mobile application, including main screens, navigation flows, and interactive elements. Incorporate feedback from the UX team and ensure that designs adhere to accessibility standards. Provide multiple design variations for key screens and include annotations for developers to implement.",
+    "createDate": "2026-01-02",
+    "author": "Bob"
+  },
+  {
+    "id": 3,
+    "name": "Setup Project Repository",
+    "status": "Completed",
+    "description": "Initialize the project repository on GitHub with appropriate branching strategies, commit guidelines, and repository structure. Configure CI/CD pipelines for automated testing, linting, and deployment. Ensure access control for all team members and provide detailed documentation for repository usage and contribution guidelines.",
+    "createDate": "2026-01-03",
+    "author": "Charlie"
+  },
+  {
+    "id": 4,
+    "name": "Write Comprehensive Unit Tests",
+    "status": "Open",
+    "description": "Develop a suite of unit tests covering all critical modules and components. Ensure that tests are comprehensive, including edge cases and potential failure scenarios. Integrate these tests into the CI pipeline to provide automated verification of code changes, and document testing strategies for future developers to maintain consistency and reliability.",
+    "createDate": "2026-01-04",
+    "author": "Dana"
+  },
+  {
+    "id": 5,
+    "name": "Integrate API Endpoints",
+    "status": "In Progress",
+    "description": "Connect the frontend application with backend APIs, ensuring proper authentication, error handling, and data formatting. Implement integration tests to verify that API calls return expected results and handle exceptions gracefully. Document all endpoints used, including parameters, responses, and example requests for developer reference.",
+    "createDate": "2026-01-05",
+    "author": "Eve"
+  },
+  {
+    "id": 6,
+    "name": "Deploy Application to Staging",
+    "status": "Completed",
+    "description": "Prepare and deploy the latest build of the application to the staging environment. Verify all functionalities, run automated tests, and confirm that deployment scripts execute successfully. Notify stakeholders of the new staging environment and provide instructions for testing and reporting any issues discovered before production deployment.",
+    "createDate": "2026-01-06",
+    "author": "Frank"
+  },
+  {
+    "id": 7,
+    "name": "Update Project Documentation",
+    "status": "Open",
+    "description": "Revise and expand the project documentation to include recent changes, feature additions, and known issues. Ensure clarity and completeness for both internal team members and external stakeholders. Include diagrams, code snippets, and example workflows where appropriate to aid understanding and onboarding of new team members.",
+    "createDate": "2026-01-07",
+    "author": "Grace"
+  },
+  {
+    "id": 8,
+    "name": "Fix Critical Login Bug",
+    "status": "In Progress",
+    "description": "Investigate and resolve the login authentication issue affecting certain user accounts. Perform thorough testing to ensure no regression occurs in other authentication flows. Collaborate with the security team to verify that fixes do not compromise security, and document the root cause and solution for future reference.",
+    "createDate": "2026-01-08",
+    "author": "Heidi"
+  },
+  {
+    "id": 9,
+    "name": "Conduct Code Review for Module A",
+    "status": "Completed",
+    "description": "Perform a detailed code review of Module A, checking for code quality, adherence to coding standards, performance optimization, and potential bugs. Provide constructive feedback and suggest improvements. Ensure that the code aligns with overall architectural patterns and that tests are comprehensive and passing.",
+    "createDate": "2026-01-09",
+    "author": "Ivan"
+  },
+  {
+    "id": 10,
+    "name": "Optimize Database Queries",
+    "status": "Open",
+    "description": "Analyze and optimize SQL queries to improve performance and reduce server load. Identify slow queries, create appropriate indexes, and restructure queries where necessary. Ensure that optimization does not affect data integrity or application functionality. Document all changes and provide before-and-after performance metrics.",
+    "createDate": "2026-01-10",
+    "author": "Judy"
+  },
+  {
+    "id": 11,
+    "name": "Design Marketing Banner",
+    "status": "In Progress",
+    "description": "Create a visually appealing marketing banner for the upcoming campaign, considering branding guidelines, target audience, and messaging. Ensure the design is adaptable for multiple platforms, including web, social media, and print. Provide mockups and receive feedback before final production.",
+    "createDate": "2026-01-11",
+    "author": "Alice"
+  },
+  {
+    "id": 12,
+    "name": "Setup CI/CD Pipeline",
+    "status": "Completed",
+    "description": "Configure the continuous integration and continuous deployment pipeline for the project. Ensure automated building, testing, and deployment processes are fully functional. Include rollback mechanisms and notifications for failures. Document setup instructions to enable team members to maintain and extend the pipeline.",
+    "createDate": "2026-01-12",
+    "author": "Bob"
+  },
+  {
+    "id": 13,
+    "name": "Research New Frameworks",
+    "status": "Open",
+    "description": "Investigate and evaluate emerging frontend and backend frameworks for potential adoption in upcoming projects. Analyze performance, community support, documentation, and long-term maintainability. Prepare a comprehensive report summarizing findings and recommending frameworks based on project needs and technical requirements.",
+    "createDate": "2026-01-13",
+    "author": "Charlie"
+  },
+  {
+    "id": 14,
+    "name": "Implement Search Feature",
+    "status": "In Progress",
+    "description": "Develop a search functionality allowing users to filter and locate records efficiently within the application. Include autocomplete suggestions, error handling, and performance optimization for large datasets. Ensure accessibility and responsiveness for different devices and browsers. Document API usage and implementation details for future maintenance.",
+    "createDate": "2026-01-14",
+    "author": "Dana"
+  },
+  {
+    "id": 15,
+    "name": "Update User Guide",
+    "status": "Completed",
+    "description": "Revise the user guide to include all new features, interface changes, and updated workflows. Add step-by-step instructions, screenshots, and examples to ensure clarity. Review for grammar and readability, and ensure the guide aligns with company standards and helps users navigate the application efficiently.",
+    "createDate": "2026-01-15",
+    "author": "Eve"
+  },
+  {
+    "id": 16,
+    "name": "Prepare Presentation Slides",
+    "status": "Open",
+    "description": "Design a professional presentation summarizing project goals, progress, and next steps for stakeholders. Include charts, visuals, and key metrics. Ensure clarity, consistency, and alignment with company branding. Prepare talking points for the presenter to clearly communicate objectives and outcomes to the audience.",
+    "createDate": "2026-01-16",
+    "author": "Frank"
+  },
+  {
+    "id": 17,
+    "name": "Fix CSS Layout Issues",
+    "status": "In Progress",
+    "description": "Identify and resolve layout problems in the web application caused by CSS inconsistencies. Ensure proper alignment, spacing, and responsiveness across all devices and screen sizes. Conduct cross-browser testing and adjust styles to maintain design fidelity. Document fixes and update the style guide accordingly.",
+    "createDate": "2026-01-17",
+    "author": "Grace"
+  },
+  {
+    "id": 18,
+    "name": "Merge Feature Branch",
+    "status": "Completed",
+    "description": "Review and merge the feature branch into the main branch after thorough testing. Resolve conflicts, verify all automated tests pass, and ensure deployment readiness. Communicate merge details to the team and update relevant documentation. Confirm no regressions are introduced and that the new feature integrates smoothly with existing functionality.",
+    "createDate": "2026-01-18",
+    "author": "Heidi"
+  },
+  {
+    "id": 19,
+    "name": "Update Server Configuration",
+    "status": "Open",
+    "description": "Modify server configuration settings to improve security, performance, and scalability. Implement best practices for caching, logging, and backup. Test configuration changes in a controlled environment before deploying to production. Document all changes and provide rollback procedures to ensure system stability.",
+    "createDate": "2026-01-19",
+    "author": "Ivan"
+  },
+  {
+    "id": 20,
+    "name": "Write Blog Post",
+    "status": "In Progress",
+    "description": "Compose an informative blog post about recent project developments, key features, and lessons learned. Ensure content is engaging, well-structured, and optimized for SEO. Include visuals and examples where necessary. Review and edit content for clarity, grammar, and adherence to company tone and style guidelines before publishing.",
+    "createDate": "2026-01-20",
+    "author": "Judy"
+  },
+  {
+    "id": 21,
+    "name": "Conduct User Testing",
+    "status": "Completed",
+    "description": "Organize and perform user testing sessions to evaluate application usability and performance. Collect feedback, identify pain points, and document observations. Analyze results to generate actionable insights for design and development improvements. Present findings to stakeholders with recommended changes for the next iteration.",
+    "createDate": "2026-01-21",
+    "author": "Alice"
+  },
+  {
+    "id": 22,
+    "name": "Refactor Legacy Code",
+    "status": "Open",
+    "description": "Review and refactor legacy code to improve readability, maintainability, and performance. Ensure consistent coding standards are applied and remove redundant or obsolete code. Conduct thorough testing to ensure functionality remains intact. Document changes and provide guidance for future developers on best practices and patterns.",
+    "createDate": "2026-01-22",
+    "author": "Bob"
+  },
+  {
+    "id": 23,
+    "name": "Create Prototype for App",
+    "status": "In Progress",
+    "description": "Develop a functional prototype for the new application, demonstrating key features, navigation flows, and interactions. Collect feedback from stakeholders and end users to validate requirements. Ensure prototype accurately represents the design vision and provides a foundation for full-scale development.",
+    "createDate": "2026-01-23",
+    "author": "Charlie"
+  },
+  {
+    "id": 24,
+    "name": "Fix Critical Bugs",
+    "status": "Completed",
+    "description": "Identify, troubleshoot, and resolve critical bugs affecting system functionality. Prioritize fixes based on severity and impact on users. Test thoroughly to ensure no regressions occur, and deploy patches efficiently. Document the root causes and solutions to prevent recurrence and maintain system stability.",
+    "createDate": "2026-01-24",
+    "author": "Dana"
+  },
+  {
+    "id": 25,
+    "name": "Conduct Team Meeting",
+    "status": "Open",
+    "description": "Organize a comprehensive team meeting to review project progress, discuss challenges, and plan upcoming tasks. Prepare an agenda, collect relevant metrics, and facilitate discussion to ensure all team members are informed and aligned. Document decisions and action items for follow-up.",
+    "createDate": "2026-01-25",
+    "author": "Eve"
+  },
+  {
+    "id": 26,
+    "name": "Analyze Performance Metrics",
+    "status": "In Progress",
+    "description": "Collect and analyze performance metrics from recent deployments and system monitoring tools. Identify bottlenecks, inefficiencies, and potential improvements. Provide detailed reports with visualizations and actionable recommendations for the development and operations teams to optimize system performance and user experience.",
+    "createDate": "2026-01-26",
+    "author": "Frank"
+  },
+  {
+    "id": 27,
+    "name": "Submit Project Report",
+    "status": "Completed",
+    "description": "Compile and submit the project report summarizing progress, accomplishments, challenges, and next steps. Include metrics, timelines, and budget adherence. Ensure report is clear, detailed, and professionally formatted. Share with stakeholders and archive for future reference and audits.",
+    "createDate": "2026-01-27",
+    "author": "Grace"
+  },
+  {
+    "id": 28,
+    "name": "Plan Next Sprint",
+    "status": "Open",
+    "description": "Organize sprint planning sessions for the next development cycle. Define tasks, assign responsibilities, estimate effort, and set priorities based on project roadmap and team capacity. Document sprint goals, dependencies, and expected deliverables to ensure alignment and efficiency.",
+    "createDate": "2026-01-28",
+    "author": "Heidi"
+  },
+  {
+    "id": 29,
+    "name": "Integrate Analytics Tool",
+    "status": "In Progress",
+    "description": "Connect the application with an analytics platform to track user behavior, feature usage, and performance metrics. Configure dashboards, events, and reports to provide actionable insights. Test tracking accuracy and ensure compliance with privacy policies and regulations. Document setup for ongoing maintenance and improvements.",
+    "createDate": "2026-01-29",
+    "author": "Ivan"
+  },
+  {
+    "id": 30,
+    "name": "Finalize Project Deliverables",
+    "status": "Completed",
+    "description": "Review and finalize all project deliverables, ensuring they meet quality standards, specifications, and stakeholder expectations. Perform final testing, documentation, and packaging for delivery. Obtain approvals from stakeholders and archive project materials for compliance and future reference.",
+    "createDate": "2026-01-30",
+    "author": "Judy"
+  }
+]

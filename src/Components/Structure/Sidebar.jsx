@@ -1,6 +1,5 @@
-import styles from "./Sidebar.module.scss";
-
 import Filters from "../UI/Filters";
+import styles from "./Sidebar.module.scss";
 import SidebarNav from "./SidebarNav";
 
 export default function Sidebar({ onChangeView }) {

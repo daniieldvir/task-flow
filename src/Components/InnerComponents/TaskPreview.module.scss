@@ -1,0 +1,40 @@
+.taskPreview {
+  display: flex;
+  height: 100%;
+  justify-content: space-between;
+  flex-direction: column;
+
+  .taskName {
+    font-size: 20px;
+    padding-bottom: 10px;
+  }
+
+  .description {
+    font-size: 14px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 3;
+    text-overflow: ellipsis;
+  }
+
+  .taskDetails {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-size: 12px;
+
+    .inprogress {
+      color: orange;
+    }
+
+    .completed {
+      color: #007bff;
+    }
+
+    .open {
+      color: green;
+    }
+  }
+}

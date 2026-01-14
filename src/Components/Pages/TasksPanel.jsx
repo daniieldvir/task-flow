@@ -1,14 +1,19 @@
+import tasks from "../../assets/json/tasks.json";
+import TaskPreview from "../InnerComponents/TaskPreview";
+import Card from "../UI/Card";
+import styles from "./TasksPanel.module.scss";
+
 export default function TasksPanel() {
   return (
-    <div>
+    <div className={styles.tasksPanel}>
       <h2>Tasks</h2>
-      {/* <ul>
+      <ul className={styles.taskList}>
         {tasks.map((task) => (
-          <li key={task.id}>
-            <strong>{task.name}</strong> – {task.status} – {task.author}
-          </li>
+          <Card key={task.id}>
+            <TaskPreview props={task} />
+          </Card>
         ))}
-      </ul> */}
+      </ul>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./App.css";
+import style from "./App.module.scss";
 import AlartsPanel from "./Components/Pages/AlartsPanel";
 import IncidentsPanel from "./Components/Pages/IncidentsPanel";
 import OverviewPanel from "./Components/Pages/OverviewPanel";
@@ -9,12 +9,12 @@ import Header from "./Components/Structure/Header";
 import Sidebar from "./Components/Structure/Sidebar";
 
 function App() {
-  const [activeView, setActiveView] = useState("overview");
+  const [activeView, setActiveView] = useState("tasks");
 
   return (
-    <div className="app">
+    <div className={style.App}>
       <Header />
-      <div className="app-shell">
+      <div className={style.appShell}>
         <Sidebar onChangeView={setActiveView} />
         {activeView === "overview" && <OverviewPanel />}
         {activeView === "tasks" && <TasksPanel />}
