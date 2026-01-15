@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -8,6 +9,8 @@ import TasksPanel from "./components/pages/TasksPanel";
 import RootLayout from "./components/Routes/RootLayout";
 import { DataProvider } from "./components/utils/DataContext";
 import "./index.scss";
+
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {
@@ -26,9 +29,9 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  <QueryClientProvider client={queryClient}>
     <DataProvider>
       <RouterProvider router={router} />
     </DataProvider>
-  </React.StrictMode>
+  </QueryClientProvider>
 );

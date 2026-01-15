@@ -1,25 +1,27 @@
-import Card from "../UI/Card";
-import DataPreview from "../UI/DataPreview";
 import { useData } from "../utils/DataContext";
-import styles from "./AlertsPanel.module.scss";
+import DataPanel from "./DataPanel";
 
 export default function AlertsPanel() {
-  const { alerts } = useData();
+  const { alerts, filter } = useData();
+
   return (
-    <div className={styles.alertsPanel}>
-      <h2>Alerts</h2>
-      <ul className={styles.alartList}>
-        {alerts.map((alart) => (
-          <Card key={alart.id}>
-            <DataPreview
-              props={alart}
-              title={alart.title}
-              source={alart.severity}
-              statusKey={alart.severity}
-            />
-          </Card>
-        ))}
-      </ul>
-    </div>
+    <DataPanel
+      data={alerts}
+      filter={filter}
+      filterField="severity"
+      titleField="title"
+      sourceField="severity"
+      emptyMessage="No Alerts"
+      panelTitle="Alerts"
+      onAdd={() => {
+        /* add task */
+      }}
+      onEdit={(task) => {
+        /* edit task */
+      }}
+      onDelete={(id) => {
+        /* delete task */
+      }}
+    />
   );
 }

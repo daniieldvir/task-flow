@@ -1,0 +1,28 @@
+.panel {
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    width: 100%;
+  }
+
+  .list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-around;
+  }
+
+  .emptyState {
+    margin-top: 1.5rem;
+    padding: 1rem 1.25rem;
+    border-radius: 0.75rem;
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px dashed rgba(148, 163, 184, 0.5);
+    color: #e2e8f0;
+    font-size: 0.9rem;
+    text-align: center;
+    letter-spacing: 0.02em;
+  }
+}

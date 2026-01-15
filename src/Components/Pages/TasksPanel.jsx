@@ -1,26 +1,94 @@
-import Card from "../UI/Card";
-import DataPreview from "../UI/DataPreview";
+import { useState } from "react";
+import { useCreateTask, useTasks } from "../../hooks/useTasks";
+import AddForm from "../UI/ActionsPages/AddForm";
+import Modal from "../UI/ActionsPages/Modal";
 import { useData } from "../utils/DataContext";
-import styles from "./TasksPanel.module.scss";
+import DataPanel from "./DataPanel";
 
 export default function TasksPanel() {
-  const { tasks } = useData();
+  const { data: tasks = [], isLoading, error } = useTasks();
+  const { filter } = useData();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { createTask, isPending, isError } = useCreateTask();
+
+  const handleAdd = async () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCreate = async (data) => {
+    const dataToSend = {
+      ...data,
+      createDate: new Date(),
+    };
+    createTask(dataToSend);
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = async () => {
+    setIsModalOpen(false);
+  };
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div className={styles.tasksPanel}>
-      <h2>Tasks</h2>
-      <ul className={styles.taskList}>
-        {tasks.map((task) => (
-          <Card key={task.id}>
-            <DataPreview
-              props={task}
-              title={task.name}
-              source={task.status}
-              statusKey={task.status}
-            />
-          </Card>
-        ))}
-      </ul>
-    </div>
+    <>
+      <DataPanel
+        data={tasks}
+        filter={filter}
+        filterField="status"
+        titleField="name"
+        sourceField="status"
+        emptyMessage="No Tasks"
+        panelTitle="Tasks"
+        onAdd={handleAdd}
+        onEdit={(task) => {
+          /* edit task */
+        }}
+        onDelete={(id) => {
+          /* delete task */
+        }}
+      />
+
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="Add New Task"
+      >
+        <AddForm
+          title="Create Task"
+          submitLabel="Create Task"
+          onSubmit={handleCreate}
+          onCancel={handleCancel}
+          fields={[
+            {
+              name: "name",
+              label: "Task Name",
+              type: "text",
+              required: true,
+              placeholder: "Enter task name",
+            },
+            {
+              name: "status",
+              label: "Status",
+              type: "select",
+              defaultValue: "Open",
+              options: [
+                { label: "Open", value: "Open" },
+                { label: "In Progress", value: "In Progress" },
+                { label: "Resolved", value: "Resolved" },
+              ],
+            },
+            {
+              name: "description",
+              label: "Description",
+              type: "textarea",
+              placeholder: "Enter task description",
+            },
+          ]}
+        />
+      </Modal>
+    </>
   );
 }

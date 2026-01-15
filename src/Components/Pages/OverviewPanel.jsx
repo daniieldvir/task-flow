@@ -15,8 +15,8 @@ import {
 
 import PieChart from "../charts/PieChart";
 import ProgressBar from "../charts/ProgressBar";
-import Card from "../UI/Card";
-import StatCard from "../UI/StatCard";
+import Card from "../UI/Cards/Card";
+import StatCard from "../UI/Cards/StatCard";
 import { useData } from "../utils/DataContext";
 import styles from "./OverviewPanel.module.scss";
 

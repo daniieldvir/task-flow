@@ -1,0 +1,57 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+  color: #e2e8f0;
+
+  .label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #94a3b8;
+  }
+
+  .control {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    .select {
+      width: 100%;
+      padding: 0.4rem 2rem 0.4rem 0.6rem;
+      border-radius: 0.6rem;
+      border: 1px solid rgba(51, 65, 85, 0.9);
+      background: radial-gradient(circle at top, #020617, #020617);
+      color: #e2e8f0;
+      font-size: 0.8rem;
+      outline: none;
+      appearance: none;
+      cursor: pointer;
+
+      option {
+        background-color: #020617;
+        color: #e2e8f0;
+      }
+
+      &:hover {
+        border-color: #64748b;
+      }
+
+      &:focus {
+        border-color: #38bdf8;
+        box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.4);
+      }
+    }
+  }
+
+  .chevron {
+    position: absolute;
+    right: 0.6rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 1.8rem;
+    color: #e2e8f0;
+  }
+}

@@ -2,6 +2,14 @@ import styles from "./DataPreview.module.scss";
 import Status from "./Status";
 
 export default function DataPreview({ props, statusKey, source, title }) {
+  const formattedDate = new Date(props.createDate).toLocaleDateString("en-US", {
+    weekday: "short",
+    year: "numeric",
+    month: "short",
+    month: "short",
+    day: "numeric",
+  });
+
   return (
     <div className={styles.dataPreview}>
       <div>
@@ -10,7 +18,7 @@ export default function DataPreview({ props, statusKey, source, title }) {
       </div>
 
       <div className={styles.details}>
-        <p>{props.createDate}</p>
+        <p>{formattedDate}</p>
         <p> {source}</p>
         <Status statusKey={statusKey} />
       </div>
