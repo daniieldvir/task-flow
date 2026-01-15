@@ -8,9 +8,9 @@ import DataPanel from "./DataPanel";
 export default function TasksPanel() {
   const { data: tasks = [], isLoading, error } = useTasks();
   const { filter } = useData();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const { createTask, isPending, isError } = useCreateTask();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleAdd = async () => {
     setIsModalOpen(true);

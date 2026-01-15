@@ -11,12 +11,21 @@ export function useAlerts() {
 export function useCreateAlert() {
   const queryClient = useQueryClient();
 
-  return useMutation({
+  const mutation = useMutation({
     mutationFn: alertsApi.create,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["alerts"] });
+    onSuccess: (newAlert) => {
+      queryClient.setQueryData(["alerts"], (oldAlert) => {
+        if (!oldAlert) return [newAlert];
+        return [newAlert, ...oldAlert];
+      });
     },
   });
+
+  return {
+    createAlert: mutation.mutate,
+    isCreating: mutation.isPending,
+    error: mutation.error,
+  };
 }
 
 export function useUpdateAlert() {

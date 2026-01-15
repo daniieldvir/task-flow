@@ -9,13 +9,7 @@ export default function PieChart({ data, value, colors, borderColors }) {
       return acc;
     }, {}) || {};
 
-  const defaultColors = [
-    "rgba(255, 99, 132, 0.5)",
-    "rgba(54, 162, 235, 0.5)",
-    "rgba(75, 192, 192, 0.5)",
-    "rgba(255, 206, 86, 0.5)",
-    "rgba(153, 102, 255, 0.5)",
-  ];
+  const defaultColors = ["green", "orange", "#007bff"];
 
   const defaultBorderColors = defaultColors.map((c) => c.replace("0.5", "1"));
 
