@@ -10,10 +10,8 @@ export default function Header() {
           Lightweight Task Management Tool
         </span>
       </div>
-      <div className={styles.right}>
-        <span className={styles.envPill}>Dashboard</span>
-        <UserAvater />
-      </div>
+
+      <UserAvater />
     </header>
   );
 }

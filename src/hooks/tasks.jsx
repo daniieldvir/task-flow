@@ -5,7 +5,14 @@ import { createTask, deleteTask, fetchTasks, updateTask } from "../api/tasks";
 export const useTasks = () => {
   return useQuery({
     queryKey: ["tasks"],
-    queryFn: fetchTasks,
+    queryFn: async () => {
+      const tasks = await fetchTasks();
+
+      return [...tasks].sort(
+        (a, b) =>
+          new Date(b.createDate).getTime() - new Date(a.createDate).getTime()
+      );
+    },
   });
 };
 

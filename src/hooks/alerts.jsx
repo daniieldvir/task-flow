@@ -10,7 +10,14 @@ import {
 export const useAlerts = () => {
   return useQuery({
     queryKey: ["alerts"],
-    queryFn: fetchAlerts,
+    queryFn: async () => {
+      const alerts = await fetchAlerts();
+
+      return [...alerts].sort(
+        (a, b) =>
+          new Date(b.createDate).getTime() - new Date(a.createDate).getTime()
+      );
+    },
   });
 };
 

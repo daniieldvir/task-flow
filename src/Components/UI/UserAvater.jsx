@@ -6,7 +6,6 @@ export default function UserAvater() {
       <span className={styles.avatar}>A</span>
       <span className={styles.userInfo}>
         <span className={styles.userName}>Admin</span>
-        <span className={styles.userRole}>Incident Manager</span>
       </span>
     </div>
   );

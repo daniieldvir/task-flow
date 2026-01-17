@@ -10,7 +10,14 @@ import {
 export const useIncidents = () => {
   return useQuery({
     queryKey: ["incidents"],
-    queryFn: fetchIncidents,
+    queryFn: async () => {
+      const incidents = await fetchIncidents();
+
+      return [...incidents].sort(
+        (a, b) =>
+          new Date(b.createDate).getTime() - new Date(a.createDate).getTime()
+      );
+    },
   });
 };
 

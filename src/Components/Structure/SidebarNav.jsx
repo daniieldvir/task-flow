@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../UI/Buttons/Button";
-import styles from "./Sidebar.module.scss";
+import styles from "./SidebarNav.module.scss";
 
 export default function SidebarNav() {
   const navigate = useNavigate();
@@ -22,14 +22,13 @@ export default function SidebarNav() {
   return (
     <nav className={styles.sidebarNav}>
       {nav.map((n) => (
-        <div className={styles.navItem} key={n.name}>
-          <Button
-            className={styles.navItem}
-            label={n.name}
-            isActive={activeView === n.name}
-            onClick={() => handleClick(n.name, n.path)}
-          />
-        </div>
+        <Button
+          key={n.name}
+          className={styles.navItem}
+          label={n.name}
+          isActive={activeView === n.name}
+          onClick={() => handleClick(n.name, n.path)}
+        />
       ))}
     </nav>
   );
