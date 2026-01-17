@@ -7,7 +7,6 @@ export default function StatCard({ icon, label, value }) {
         {icon}
         <span>{label}</span>
       </header>
-
       <div className={styles.value}>{value}</div>
     </div>
   );

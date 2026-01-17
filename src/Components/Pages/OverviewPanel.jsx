@@ -13,11 +13,11 @@ import {
   Tooltip,
 } from "chart.js";
 
+import { useOverviewData } from "../../apiCalls/hooks/useOverviewData";
 import PieChart from "../charts/PieChart";
 import ProgressBar from "../charts/ProgressBar";
 import Card from "../UI/Cards/Card";
 import StatCard from "../UI/Cards/StatCard";
-import { useData } from "../utils/DataContext";
 import styles from "./OverviewPanel.module.scss";
 
 ChartJS.register(
@@ -31,7 +31,7 @@ ChartJS.register(
 );
 
 export default function OverviewPanel() {
-  const { tasks, alerts, incidents } = useData();
+  const { tasks, alerts, incidents, isLoading, error } = useOverviewData();
   console.log("tasks", tasks);
   console.log("alerts", alerts);
   console.log("incidents", incidents);

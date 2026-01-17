@@ -1,27 +1,26 @@
 import { useState } from "react";
-import { useCreateTask, useTasks } from "../../hooks/useTasks";
+import { useCreateTask, useTasks } from "../../apiCalls/hooks/tasks.jsx";
 import AddForm from "../UI/ActionsPages/AddForm";
 import Modal from "../UI/ActionsPages/Modal";
-import { useData } from "../utils/DataContext";
-import DataPanel from "./DataPanel";
+import DataPanel from "../UI/DataDisplay/DataPanel";
 
 export default function TasksPanel() {
   const { data: tasks = [], isLoading, error } = useTasks();
-  const { filter } = useData();
-  const { createTask, isPending, isError } = useCreateTask();
+  console.log("tasks", tasks);
+  const createTaskMutation = useCreateTask();
 
+  const [filterStatus, setFilterStatus] = useState("All");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleAdd = async () => {
     setIsModalOpen(true);
   };
 
-  const handleCreate = async (data) => {
-    const dataToSend = {
-      ...data,
+  const handleCreate = (taskData) => {
+    createTaskMutation.mutate({
+      ...taskData,
       createDate: new Date(),
-    };
-    createTask(dataToSend);
+    });
     setIsModalOpen(false);
   };
 
@@ -36,10 +35,10 @@ export default function TasksPanel() {
     <>
       <DataPanel
         data={tasks}
-        filter={filter}
+        filter={filterStatus}
         filterField="status"
         titleField="name"
-        sourceField="status"
+        sourceField="author"
         emptyMessage="No Tasks"
         panelTitle="Tasks"
         onAdd={handleAdd}

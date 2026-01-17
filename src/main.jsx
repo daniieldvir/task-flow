@@ -7,7 +7,6 @@ import IncidentsPanel from "./components/pages/IncidentsPanel";
 import OverviewPanel from "./components/pages/OverviewPanel";
 import TasksPanel from "./components/pages/TasksPanel";
 import RootLayout from "./components/Routes/RootLayout";
-import { DataProvider } from "./components/utils/DataContext";
 import "./index.scss";
 
 const queryClient = new QueryClient();
@@ -30,8 +29,6 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   <QueryClientProvider client={queryClient}>
-    <DataProvider>
-      <RouterProvider router={router} />
-    </DataProvider>
+    <RouterProvider router={router} />
   </QueryClientProvider>
 );

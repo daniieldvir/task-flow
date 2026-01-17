@@ -1,0 +1,60 @@
+.dataPreview {
+  display: flex;
+  height: 100%;
+  justify-content: space-between;
+  flex-direction: column;
+
+  header {
+    display: flex;
+    .name {
+      font-size: 20px;
+      padding-bottom: 10px;
+    }
+
+    .description {
+      font-size: 14px;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      -webkit-line-clamp: 2;
+      text-overflow: ellipsis;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      cursor: pointer;
+
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(4px);
+
+      transition:
+        opacity 0.2s ease,
+        transform 0.2s ease,
+        visibility 0.2s ease;
+    }
+  }
+
+  &:hover {
+    .actions {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+  }
+
+  .details {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    justify-content: space-between;
+
+    .creat {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+  }
+}

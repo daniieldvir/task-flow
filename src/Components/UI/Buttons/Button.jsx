@@ -7,7 +7,10 @@ export default function Button({
   onClick,
 }) {
   return (
-    <button className={isActive ? styles.active : className} onClick={onClick}>
+    <button
+      className={`${styles.button} ${isActive ? styles.active : className}`}
+      onClick={onClick}
+    >
       <span>{label}</span>
     </button>
   );

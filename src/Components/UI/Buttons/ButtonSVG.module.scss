@@ -1,0 +1,21 @@
+.buttonSVG {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  height: 30px;
+
+  &:hover {
+    background: rgba(30, 64, 175, 0.32);
+    border-color: rgba(59, 130, 246, 0.8);
+    color: #eff6ff;
+  }
+
+  svg {
+    width: 20px;
+  }
+}

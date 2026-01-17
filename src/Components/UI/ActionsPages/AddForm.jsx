@@ -8,6 +8,7 @@ export default function AddForm({
   onSubmit,
   onCancel,
 }) {
+  // Initialize formData once from initialData and field defaults
   const [formData, setFormData] = useState(() =>
     fields.reduce((acc, field) => {
       acc[field.name] = initialData[field.name] ?? field.defaultValue ?? "";
@@ -33,7 +34,7 @@ export default function AddForm({
           {field.type === "select" && (
             <select
               id={field.name}
-              value={formData[field.name]}
+              value={formData[field.name] ?? ""}
               onChange={(e) => handleChange(field.name, e.target.value)}
             >
               {field.options.map((option) => (
@@ -49,7 +50,7 @@ export default function AddForm({
               id={field.name}
               rows={field.rows ?? 4}
               placeholder={field.placeholder}
-              value={formData[field.name]}
+              value={formData[field.name] ?? ""}
               onChange={(e) => handleChange(field.name, e.target.value)}
             />
           )}
@@ -60,7 +61,7 @@ export default function AddForm({
               type="text"
               required={field.required}
               placeholder={field.placeholder}
-              value={formData[field.name]}
+              value={formData[field.name] ?? ""}
               onChange={(e) => handleChange(field.name, e.target.value)}
             />
           )}
@@ -68,9 +69,8 @@ export default function AddForm({
       ))}
 
       <div className={styles.actions}>
-        <ActionButton label="Cancel" />
-
-        <ActionButton label="Submit" />
+        <ActionButton label="Cancel" type="button" onClick={onCancel} />
+        <ActionButton label="Submit" type="submit" />
       </div>
     </form>
   );

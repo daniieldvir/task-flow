@@ -1,7 +1,7 @@
-import ActionButton from "../UI/Buttons/ActionButton";
-import Card from "../UI/Cards/Card";
-import DataPreview from "../UI/DataPreview";
+import ActionButton from "../Buttons/ActionButton";
+import Card from "../Cards/Card";
 import styles from "./DataPanel.module.scss";
+import DataPreview from "./DataPreview";
 
 export default function DataPanel({
   data,
