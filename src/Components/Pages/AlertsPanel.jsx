@@ -13,16 +13,17 @@ import DataPanel from "../UI/DataDisplay/DataPanel";
 
 export default function AlertsPanel() {
   const { data: alerts = [], isLoading, error } = useAlerts();
+  const { filter } = useFilter();
+
+  const [isAddEditModalOpen, setIsAddEditModalOpen] = useState(false);
+  const [alertToEdit, setAlertToEdit] = useState(null);
+
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [alertToDelete, setAlertToDelete] = useState(null);
+
   const createAlertsMutation = useCreateAlert();
   const updateAlertMutation = useUpdateAlert();
   const deleteAlertMutation = useDeleteAlert();
-
-  const { filter } = useFilter();
-  const [isAddEditModalOpen, setIsAddEditModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-
-  const [alertToEdit, setAlertToEdit] = useState(null);
-  const [alertToDelete, setAlertToDelete] = useState(null);
 
   const handleAddClicked = async () => {
     setAlertToEdit(null);
@@ -35,7 +36,6 @@ export default function AlertsPanel() {
   };
 
   const handleDeleteClicked = async (id) => {
-    console.log(id);
     setAlertToDelete(id);
     setIsDeleteModalOpen(true);
   };

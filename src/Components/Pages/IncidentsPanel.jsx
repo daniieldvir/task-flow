@@ -1,10 +1,80 @@
-import { useIncidents } from "../../hooks/incidents.jsx";
+import { useState } from "react";
+import {
+  useCreateIncidents,
+  useDeleteIncidents,
+  useIncidents,
+  useUpdateIncidents,
+} from "../../hooks/incidents";
 import { useFilter } from "../../hooks/useFilter";
+import AddForm from "../UI/ActionsPages/AddForm";
+import DeleteModal from "../UI/ActionsPages/DeleteModal";
+import Modal from "../UI/ActionsPages/Modal";
 import DataPanel from "../UI/DataDisplay/DataPanel";
 
 export default function IncidentsPanel() {
   const { data: incidents = [], isLoading, error } = useIncidents();
   const { filter } = useFilter();
+
+  const [isAddEditModalOpen, setIsAddEditModalOpen] = useState(false);
+  const [incidentToEdit, setIncidentToEdit] = useState(null);
+
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [incidentToDelete, setIncidentToDelete] = useState(null);
+
+  const createIncidentsMutation = useCreateIncidents();
+  const updateIncidentsMutation = useUpdateIncidents();
+  const deleteIncidentsMutation = useDeleteIncidents();
+
+  const handleAddClicked = async () => {
+    setIncidentToEdit(null);
+    setIsAddEditModalOpen(true);
+  };
+
+  const handleEditClicked = async (incident) => {
+    setIncidentToEdit(incident);
+    setIsAddEditModalOpen(true);
+  };
+
+  const handleDeleteClicked = async (id) => {
+    setIncidentToDelete(id);
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleCreate = async (incidentData) => {
+    if (!incidentToEdit) {
+      createIncidentsMutation.mutate({
+        ...incidentData,
+        createDate: new Date(),
+      });
+    } else {
+      updateIncidentsMutation.mutate({
+        id: incidentToEdit.id,
+        data: incidentData,
+      });
+    }
+    setIsAddEditModalOpen(false);
+    setIncidentToEdit(null);
+  };
+
+  const handleDelete = async () => {
+    deleteIncidentsMutation.mutate(incidentToDelete);
+    setIsDeleteModalOpen(false);
+    setIncidentToDelete(null);
+  };
+
+  const handleCancel = async () => {
+    setIsAddEditModalOpen(false);
+    setIsDeleteModalOpen(false);
+    setIncidentsToEdit(null);
+    setIncidentsToDelete(null);
+  };
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+  const addEditTitelModal = !!incidentToEdit
+    ? "edit incident"
+    : "create new incident";
 
   return (
     <>
@@ -16,24 +86,25 @@ export default function IncidentsPanel() {
         sourceField="reportedBy"
         emptyMessage="No incidents"
         panelTitle="Incidents"
-        onAdd={() => {
-          /* add task */
-        }}
-        onEdit={(task) => {
-          /* edit task */
-        }}
-        onDelete={(id) => {
-          /* delete task */
-        }}
+        onAdd={handleAddClicked}
+        onEdit={(incident) => handleEditClicked(incident)}
+        onDelete={(incident) => handleDeleteClicked(incident)}
+      />
+
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={handleCancel}
+        entity="incident"
+        onConfirm={handleDelete}
       />
 
       <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        entity="Incidents"
+        isOpen={isAddEditModalOpen}
+        onClose={handleCancel}
+        title={addEditTitelModal}
       >
         <AddForm
-          initialData={alertInAction}
+          initialData={incidentToEdit || {}}
           onSubmit={handleCreate}
           onCancel={handleCancel}
           fields={[
