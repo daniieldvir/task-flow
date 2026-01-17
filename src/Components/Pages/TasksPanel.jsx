@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useCreateTask, useTasks } from "../../apiCalls/hooks/tasks.jsx";
+import { useCreateTask, useTasks } from "../../hooks/tasks";
+import { useFilter } from "../../hooks/useFilter";
 import AddForm from "../UI/ActionsPages/AddForm";
 import Modal from "../UI/ActionsPages/Modal";
 import DataPanel from "../UI/DataDisplay/DataPanel";
@@ -9,7 +10,7 @@ export default function TasksPanel() {
   console.log("tasks", tasks);
   const createTaskMutation = useCreateTask();
 
-  const [filterStatus, setFilterStatus] = useState("All");
+  const { filter } = useFilter();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleAdd = async () => {
@@ -35,7 +36,7 @@ export default function TasksPanel() {
     <>
       <DataPanel
         data={tasks}
-        filter={filterStatus}
+        filter={filter}
         filterField="status"
         titleField="name"
         sourceField="author"

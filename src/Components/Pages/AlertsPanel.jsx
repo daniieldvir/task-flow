@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useAlerts, useCreateAlert } from "../../apiCalls/hooks/alerts.jsx";
+import { useAlerts, useCreateAlert } from "../../hooks/alerts";
+import { useFilter } from "../../hooks/useFilter";
 import AddForm from "../UI/ActionsPages/AddForm";
 import Modal from "../UI/ActionsPages/Modal";
 import DataPanel from "../UI/DataDisplay/DataPanel";
@@ -9,7 +10,7 @@ export default function AlertsPanel() {
   const createAlertsMutation = useCreateAlert();
   console.log("alerts", alerts);
 
-  const [filterStatus, setFilterStatus] = useState("All");
+  const { filter } = useFilter();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleAdd = async () => {
@@ -42,7 +43,7 @@ export default function AlertsPanel() {
     <>
       <DataPanel
         data={alerts}
-        filter={filterStatus}
+        filter={filter}
         filterField="severity"
         titleField="title"
         sourceField="source"

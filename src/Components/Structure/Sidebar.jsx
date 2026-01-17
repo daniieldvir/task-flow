@@ -1,30 +1,22 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useFilter } from "../../hooks/useFilter";
 import Filters from "../UI/Filters/Filters";
 import FilterSelect from "../UI/Filters/FilterSelect";
-// import { useData } from "../utils/DataContext";
 import { FilterOptionsByPath } from "../utils/FilterOptions";
 import styles from "./Sidebar.module.scss";
 import SidebarNav from "./SidebarNav";
 
 export default function Sidebar() {
-  const [status, setStatus] = useState("All");
-  // const { setFilter } = useData();
-
+  const { filter, setFilter } = useFilter();
   const navigate = useNavigate();
   const location = useLocation();
   const isOverview = location.pathname === "/";
   const currentOptions = FilterOptionsByPath[location.pathname] ?? ["All"];
 
-  // useEffect(() => {
-  //   setStatus("All");
-  //   setFilter("All");
-  // }, [location.pathname, setFilter]);
-
-  // function handleStatusChange(value) {
-  //   setStatus(value);
-  //   setFilter(value);
-  // }
+  useEffect(() => {
+    setFilter("All");
+  }, [location.pathname, setFilter]);
 
   return (
     <aside className={styles.sidebar}>
@@ -33,8 +25,12 @@ export default function Sidebar() {
         <SidebarNav onNavigate={navigate} />
       </div>
       {!isOverview && (
-        <Filters title={"Filters"} actions={"k"}>
-          <FilterSelect options={currentOptions} value={status} />
+        <Filters title="Filters">
+          <FilterSelect
+            options={currentOptions}
+            value={filter}
+            onChange={setFilter}
+          />
         </Filters>
       )}
     </aside>

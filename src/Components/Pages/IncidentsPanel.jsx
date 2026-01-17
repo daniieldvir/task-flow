@@ -1,15 +1,15 @@
-import { useState } from "react";
-import { useIncidents } from "../../apiCalls/hooks/incidents.jsx";
+import { useIncidents } from "../../hooks/incidents.jsx";
+import { useFilter } from "../../hooks/useFilter";
 import DataPanel from "../UI/DataDisplay/DataPanel";
 
 export default function IncidentsPanel() {
   const { data: incidents = [], isLoading, error } = useIncidents();
-  const [filterStatus, setFilterStatus] = useState("All");
+  const { filter } = useFilter();
 
   return (
     <DataPanel
       data={incidents}
-      filter={filterStatus}
+      filter={filter}
       filterField="severity"
       titleField="title"
       sourceField="reportedBy"

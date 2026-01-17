@@ -13,7 +13,7 @@ import {
   Tooltip,
 } from "chart.js";
 
-import { useOverviewData } from "../../apiCalls/hooks/useOverviewData";
+import { useOverviewData } from "../../hooks/useOverviewData";
 import PieChart from "../charts/PieChart";
 import ProgressBar from "../charts/ProgressBar";
 import Card from "../UI/Cards/Card";
