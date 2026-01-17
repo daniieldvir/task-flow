@@ -1,7 +1,9 @@
+import CloseIcon from "@mui/icons-material/Close";
 import { useEffect } from "react";
+import ButtonSVG from "../Buttons/ButtonSVG";
 import styles from "./Modal.module.scss";
 
-export default function Modal({ isOpen, onClose, title, children }) {
+export default function Modal({ isOpen, onClose, children, title }) {
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -20,9 +22,7 @@ export default function Modal({ isOpen, onClose, title, children }) {
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <div className={styles.header}>
           <h2>{title}</h2>
-          <button className={styles.closeButton} onClick={onClose}>
-            ×
-          </button>
+          <ButtonSVG icon={<CloseIcon onClick={onClose} />} />
         </div>
         <div className={styles.content}>{children}</div>
       </div>

@@ -32,9 +32,6 @@ ChartJS.register(
 
 export default function OverviewPanel() {
   const { tasks, alerts, incidents, isLoading, error } = useOverviewData();
-  console.log("tasks", tasks);
-  console.log("alerts", alerts);
-  console.log("incidents", incidents);
 
   const countBy = (items, key, value) =>
     items.filter((item) => item[key] === value).length;

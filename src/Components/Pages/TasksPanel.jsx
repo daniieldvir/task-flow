@@ -7,7 +7,7 @@ import DataPanel from "../UI/DataDisplay/DataPanel";
 
 export default function TasksPanel() {
   const { data: tasks = [], isLoading, error } = useTasks();
-  console.log("tasks", tasks);
+
   const createTaskMutation = useCreateTask();
 
   const { filter } = useFilter();
@@ -54,10 +54,9 @@ export default function TasksPanel() {
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title="Add New Task"
+        entity="Add New Task"
       >
         <AddForm
-          title="Create Task"
           submitLabel="Create Task"
           onSubmit={handleCreate}
           onCancel={handleCancel}

@@ -1,43 +1,78 @@
 import { useState } from "react";
-import { useAlerts, useCreateAlert } from "../../hooks/alerts";
+import {
+  useAlerts,
+  useCreateAlert,
+  useDeleteAlert,
+  useUpdateAlert,
+} from "../../hooks/alerts";
 import { useFilter } from "../../hooks/useFilter";
 import AddForm from "../UI/ActionsPages/AddForm";
+import DeleteModal from "../UI/ActionsPages/DeleteModal";
 import Modal from "../UI/ActionsPages/Modal";
 import DataPanel from "../UI/DataDisplay/DataPanel";
 
 export default function AlertsPanel() {
   const { data: alerts = [], isLoading, error } = useAlerts();
   const createAlertsMutation = useCreateAlert();
-  console.log("alerts", alerts);
+  const updateAlertMutation = useUpdateAlert();
+  const deleteAlertMutation = useDeleteAlert();
 
   const { filter } = useFilter();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddEditModalOpen, setIsAddEditModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  const handleAdd = async () => {
-    setIsModalOpen(true);
+  const [alertToEdit, setAlertToEdit] = useState(null);
+  const [alertToDelete, setAlertToDelete] = useState(null);
+
+  const handleAddClicked = async () => {
+    setAlertToEdit(null);
+    setIsAddEditModalOpen(true);
+  };
+
+  const handleEditClicked = async (alert) => {
+    setAlertToEdit(alert);
+    setIsAddEditModalOpen(true);
+  };
+
+  const handleDeleteClicked = async (id) => {
+    console.log(id);
+    setAlertToDelete(id);
+    setIsDeleteModalOpen(true);
   };
 
   const handleCreate = async (alertData) => {
-    createAlertsMutation.mutate({
-      ...alertData,
-      createDate: new Date(),
-    });
-    setIsModalOpen(false);
+    if (!alertToEdit) {
+      createAlertsMutation.mutate({
+        ...alertData,
+        createDate: new Date(),
+      });
+    } else {
+      updateAlertMutation.mutate({
+        id: alertToEdit.id,
+        data: alertData,
+      });
+    }
+    setIsAddEditModalOpen(false);
+    setAlertToEdit(null);
+  };
+
+  const handleDelete = async () => {
+    deleteAlertMutation.mutate(alertToDelete);
+    setIsDeleteModalOpen(false);
+    setAlertToDelete(null);
   };
 
   const handleCancel = async () => {
-    setIsModalOpen(false);
-  };
-
-  const handleEdit = async (id) => {
-    const alartToEdit = alarts.find((alart) => alart.id === id);
-    console.log(alartToEdit);
-    // setAlartInAction(alartToEdit);
-    setIsModalOpen(true);
+    setIsAddEditModalOpen(false);
+    setIsDeleteModalOpen(false);
+    setAlertToEdit(null);
+    setAlertToDelete(null);
   };
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
+
+  const addEditTitelModal = !!alertToEdit ? "edit alert" : "create new alert";
 
   return (
     <>
@@ -49,21 +84,27 @@ export default function AlertsPanel() {
         sourceField="source"
         emptyMessage="No Alerts"
         panelTitle="Alerts"
-        onAdd={handleAdd}
-        onEdit={(task) => handleEdit(task.id)}
-        onDelete={(id) => {
-          /* delete task */
-        }}
+        onAdd={handleAddClicked}
+        onEdit={(alert) => handleEditClicked(alert)}
+        onDelete={(alert) => handleDeleteClicked(alert)}
+      />
+
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={handleCancel}
+        entity="Alert"
+        onConfirm={handleDelete}
       />
 
       <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        title="Add New Task"
+        isOpen={isAddEditModalOpen}
+        onClose={handleCancel}
+        title={addEditTitelModal}
       >
         <AddForm
-          title="Create Task"
-          submitLabel="Create Task"
+          initialData={alertToEdit || {}}
+          title="Create Alert"
+          submitLabel="Create Alert"
           onSubmit={handleCreate}
           onCancel={handleCancel}
           fields={[

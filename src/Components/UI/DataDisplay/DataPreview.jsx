@@ -10,6 +10,7 @@ export default function DataPreview({
   source,
   title,
   onEdit,
+  onDelete,
 }) {
   const formattedDate = new Date(props.createDate).toLocaleDateString("en-US", {
     weekday: "short",
@@ -28,7 +29,7 @@ export default function DataPreview({
         </div>
         <div className={styles.actions}>
           <ButtonSVG icon={<EditIcon onClick={onEdit} />} />
-          <ButtonSVG icon={<DeleteIcon />} />
+          <ButtonSVG icon={<DeleteIcon onClick={onDelete} />} />
         </div>
       </header>
 

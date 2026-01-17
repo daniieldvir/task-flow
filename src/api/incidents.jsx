@@ -4,7 +4,6 @@ const API_BASE = "http://localhost:3000/api";
 
 export const fetchIncidents = async () => {
   const response = await axios.get(`${API_BASE}/incidents`);
-  console.log("API response:", response.data);
   return response.data;
 };
 
