@@ -2,8 +2,12 @@ import axios from "axios";
 
 const API_BASE = "http://localhost:3000/api";
 
-export const fetchTasks = async () => {
-  const response = await axios.get(`${API_BASE}/tasks`);
+export const fetchTasks = async (page, pageSize) => {
+  const params = new URLSearchParams();
+  if (page) params.append("page", page);
+  if (pageSize) params.append("pageSize", pageSize);
+
+  const response = await axios.get(`${API_BASE}/tasks?${params.toString()}`);
   return response.data;
 };
 

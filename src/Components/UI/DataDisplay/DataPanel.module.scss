@@ -7,11 +7,19 @@
     width: 100%;
   }
 
-  .list {
+  .listContiner {
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: space-between;
+    flex-direction: column;
+    .list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: space-between;
+    }
+
+    .paging {
+      align-self: self-end;
+    }
   }
 
   .emptyState {

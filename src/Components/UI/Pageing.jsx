@@ -1,15 +1,26 @@
-export default function Paging({ page, totalPages, setPage }) {
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import ButtonSVG from "./Buttons/ButtonSVG";
+import styles from "./Pageing.module.scss";
+
+export default function Pageing({ page, totalPages, setPage, className }) {
   return (
-    <div>
-      <button onClick={() => setPage(page - 1)} disabled={page <= 1}>
-        Previous
-      </button>
+    <div className={`${styles.pagingWraper} ${className}`}>
+      <ButtonSVG
+        icon={<ArrowBackIosIcon />}
+        onClick={() => setPage(page - 1)}
+        className=""
+        disabled={page <= 1} // pass disabled if you extend ButtonSVG to accept it
+      />
       <span>
         Page {page} of {totalPages}
       </span>
-      <button onClick={() => setPage(page + 1)} disabled={page >= totalPages}>
-        Next
-      </button>
+      <ButtonSVG
+        icon={<ArrowForwardIosIcon />}
+        onClick={() => setPage(page + 1)}
+        className=""
+        disabled={page >= totalPages}
+      />
     </div>
   );
 }
