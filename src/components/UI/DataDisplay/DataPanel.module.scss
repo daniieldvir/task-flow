@@ -1,4 +1,9 @@
 .panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+
   .header {
     display: flex;
     justify-content: space-between;
@@ -10,15 +15,20 @@
   .listContiner {
     display: flex;
     flex-direction: column;
+    flex: 1;
+
     .list {
       display: flex;
       flex-wrap: wrap;
+      align-content: flex-start;
       gap: 10px;
-      justify-content: flex-start;
+      flex: 1;
+      min-height: 0;
     }
 
     .paging {
       align-self: self-end;
+      margin-top: auto;
     }
   }
 

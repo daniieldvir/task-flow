@@ -21,7 +21,7 @@ export default function RootLayout() {
   }, [navigationType, location.pathname, navigate]);
 
   return (
-    <div className={style.App}>
+    <div className={style.app}>
       <Header />
       <div className={style.appShell}>
         <Sidebar />

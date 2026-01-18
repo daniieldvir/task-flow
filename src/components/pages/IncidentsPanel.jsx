@@ -65,8 +65,8 @@ export default function IncidentsPanel() {
   const handleCancel = async () => {
     setIsAddEditModalOpen(false);
     setIsDeleteModalOpen(false);
-    setIncidentsToEdit(null);
-    setIncidentsToDelete(null);
+    setIncidentToEdit(null);
+    setIncidentToDelete(null);
   };
 
   if (isLoading) return <div>Loading...</div>;

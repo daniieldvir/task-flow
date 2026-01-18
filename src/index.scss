@@ -159,6 +159,11 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  height: 100%;
+}
+
 body {
   margin: 0;
   min-width: 320px;
@@ -173,7 +178,7 @@ body {
 }
 
 #root {
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
 }
 
