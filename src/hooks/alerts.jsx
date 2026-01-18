@@ -15,7 +15,7 @@ export const useAlerts = () => {
 
       return [...alerts].sort(
         (a, b) =>
-          new Date(b.createDate).getTime() - new Date(a.createDate).getTime()
+          new Date(b.createDate).getTime() - new Date(a.createDate).getTime(),
       );
     },
   });
@@ -45,8 +45,8 @@ export const useUpdateAlert = () => {
     onSuccess: (updatedAlert) => {
       queryClient.setQueryData(["alerts"], (oldAlerts = []) =>
         oldAlerts.map((alert) =>
-          alert.id === updatedAlert.id ? updatedAlert : alert
-        )
+          alert.id === updatedAlert.id ? updatedAlert : alert,
+        ),
       );
     },
   });
@@ -60,7 +60,7 @@ export const useDeleteAlert = () => {
     mutationFn: (id) => deleteAlert(id),
     onSuccess: (_, id) => {
       queryClient.setQueryData(["alerts"], (oldAlerts = []) =>
-        oldAlerts.filter((alert) => alert.id !== id)
+        oldAlerts.filter((alert) => alert.id !== id),
       );
     },
   });

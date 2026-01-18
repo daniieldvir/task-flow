@@ -3,7 +3,12 @@ import Modal from "./Modal";
 
 export default function DeleteModal({ isOpen, onClose, entity, onConfirm }) {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={`Delete ${entity}?`}>
+    <Modal
+      className={styles.deleteModal}
+      isOpen={isOpen}
+      onClose={onClose}
+      title={`Delete ${entity}?`}
+    >
       <div className={styles.content}>
         <p>Are you sure you want to delete this {entity.toLowerCase()}?</p>
         <div className={styles.actions}>

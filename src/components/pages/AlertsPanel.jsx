@@ -5,6 +5,7 @@ import {
   useDeleteAlert,
   useUpdateAlert,
 } from "../../hooks/alerts";
+import { useAuth } from "../../hooks/authContext";
 import { useFilter } from "../../hooks/useFilter";
 import AddForm from "../UI/AddForm";
 import DataPanel from "../UI/DataDisplay/DataPanel";
@@ -14,6 +15,7 @@ import Modal from "../UI/Modals/Modal";
 export default function AlertsPanel() {
   const { data: alerts = [], isLoading, error } = useAlerts();
   const { filter } = useFilter();
+  const { loginUser } = useAuth();
 
   const [isAddEditModalOpen, setIsAddEditModalOpen] = useState(false);
   const [alertToEdit, setAlertToEdit] = useState(null);
@@ -44,6 +46,7 @@ export default function AlertsPanel() {
     if (!alertToEdit) {
       createAlertsMutation.mutate({
         ...alertData,
+        source: loginUser.username,
         createDate: new Date(),
       });
     } else {

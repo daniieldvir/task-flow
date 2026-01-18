@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth } from "../../hooks/authContext";
 import {
   useCreateIncidents,
   useDeleteIncidents,
@@ -14,6 +15,7 @@ import Modal from "../UI/Modals/Modal";
 export default function IncidentsPanel() {
   const { data: incidents = [], isLoading, error } = useIncidents();
   const { filter } = useFilter();
+  const { loginUser } = useAuth();
 
   const [isAddEditModalOpen, setIsAddEditModalOpen] = useState(false);
   const [incidentToEdit, setIncidentToEdit] = useState(null);
@@ -44,6 +46,7 @@ export default function IncidentsPanel() {
     if (!incidentToEdit) {
       createIncidentsMutation.mutate({
         ...incidentData,
+        reportedBy: loginUser.username,
         createDate: new Date(),
       });
     } else {

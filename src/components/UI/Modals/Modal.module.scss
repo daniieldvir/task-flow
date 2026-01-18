@@ -20,13 +20,16 @@
 }
 
 .modal {
+  display: flex;
+  flex-direction: column;
+
   background: var(--modal-bg);
   border: 1px solid var(--modal-border);
   border-radius: 0.75rem;
   width: 100%;
   max-width: 500px;
-  max-height: 90vh;
-  overflow-y: auto;
+  height: var(--modal-height, 510px);
+
   box-shadow: var(--modal-shadow);
   transition:
     background 0.3s ease,
@@ -90,6 +93,7 @@
 
 .content {
   padding: 1.5rem;
+  flex: 1;
 
   /* Delete modal content optional adjustments */
   .deleteContent {

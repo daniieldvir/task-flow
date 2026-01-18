@@ -30,8 +30,8 @@ export default function StackedBar({
     data: categories.map(
       (cat) =>
         data.filter(
-          (item) => item[categoryKey] === cat && item[stackKey] === value
-        ).length
+          (item) => item[categoryKey] === cat && item[stackKey] === value,
+        ).length,
     ),
     backgroundColor: colors[idx % colors.length],
     borderColor: borderColors[idx % borderColors.length],

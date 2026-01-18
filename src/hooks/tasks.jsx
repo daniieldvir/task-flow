@@ -15,7 +15,7 @@ export const useTasks = () => {
 
       return [...tasks].sort(
         (a, b) =>
-          new Date(b.createDate).getTime() - new Date(a.createDate).getTime()
+          new Date(b.createDate).getTime() - new Date(a.createDate).getTime(),
       );
     },
   });
@@ -45,8 +45,8 @@ export const useUpdateTask = () => {
     onSuccess: (updatedTask) => {
       queryClient.setQueryData(["tasks"], (oldTasks = []) =>
         oldTasks.map((task) =>
-          task.id === updatedTask.id ? updatedTask : task
-        )
+          task.id === updatedTask.id ? updatedTask : task,
+        ),
       );
     },
   });
@@ -60,7 +60,7 @@ export const useDeleteTask = () => {
     mutationFn: (id) => deleteTask(id),
     onSuccess: (_, id) => {
       queryClient.setQueryData(["tasks"], (oldTasks = []) =>
-        oldTasks.filter((task) => task.id !== id)
+        oldTasks.filter((task) => task.id !== id),
       );
     },
   });

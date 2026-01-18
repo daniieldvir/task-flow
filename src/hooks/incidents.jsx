@@ -15,7 +15,7 @@ export const useIncidents = () => {
 
       return [...incidents].sort(
         (a, b) =>
-          new Date(b.createDate).getTime() - new Date(a.createDate).getTime()
+          new Date(b.createDate).getTime() - new Date(a.createDate).getTime(),
       );
     },
   });
@@ -45,8 +45,8 @@ export const useUpdateIncidents = () => {
     onSuccess: (updatedIncidents) => {
       queryClient.setQueryData(["incidents"], (oldIncidents = []) =>
         oldIncidents.map((incidents) =>
-          incidents.id === updatedIncidents.id ? updatedIncidents : incidents
-        )
+          incidents.id === updatedIncidents.id ? updatedIncidents : incidents,
+        ),
       );
     },
   });
@@ -60,7 +60,7 @@ export const useDeleteIncidents = () => {
     mutationFn: (id) => deleteIncident(id),
     onSuccess: (_, id) => {
       queryClient.setQueryData(["incidents"], (oldIncidents = []) =>
-        oldIncidents.filter((incidents) => incidents.id !== id)
+        oldIncidents.filter((incidents) => incidents.id !== id),
       );
     },
   });

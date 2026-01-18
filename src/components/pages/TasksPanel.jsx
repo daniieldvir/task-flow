@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth } from "../../hooks/authContext";
 import {
   useCreateTask,
   useDeleteTask,
@@ -13,7 +14,10 @@ import Modal from "../UI/Modals/Modal";
 
 export default function TasksPanel() {
   const { data: tasks = [], isLoading, error } = useTasks();
+  const { loginUser } = useAuth();
   const { filter } = useFilter();
+
+  console.log(loginUser, "loginUser");
 
   const [isAddEditModalOpen, setIsAddEditModalOpen] = useState(false);
   const [taskToEdit, setTasktToEdit] = useState(null);
@@ -44,6 +48,7 @@ export default function TasksPanel() {
     if (!taskToEdit) {
       createTaskMutation.mutate({
         ...taskData,
+        author: loginUser.username,
         createDate: new Date(),
       });
     } else {

@@ -1,48 +1,38 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-}
+  justify-content: space-between;
+  height: 100%;
 
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  .formBody {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
 
-  label {
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    transition: color 0.3s ease;
+      label {
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        transition: color 0.3s ease;
+      }
+    }
   }
-}
 
-.actions {
-  display: flex;
-  gap: 0.75rem;
-  justify-content: flex-end;
-  margin-top: 0.5rem;
-}
+  .error {
+    font-size: 14px;
+    color: red;
+  }
 
-.cancelButton {
-  padding: 0.45rem 0.9rem;
-  border-radius: 0.6rem;
-  border: 1px solid var(--button-action-border);
-  background: transparent;
-  color: var(--button-action-text);
-  font-size: 0.8rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  cursor: pointer;
-  transition:
-    color 0.15s ease,
-    border-color 0.15s ease;
-
-  &:hover {
-    color: var(--button-hover-text);
-    border-color: var(--button-action-hover-border);
+  .actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+    margin-top: 0.5rem;
   }
 }

@@ -1,6 +1,5 @@
 import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
-import Typography from "@mui/material/Typography";
 
 export default function ProgressBar({
   val1,
@@ -14,11 +13,7 @@ export default function ProgressBar({
   const val1Percent = total ? (val1 / total) * 100 : 0;
 
   return (
-    <Box sx={{ width: 300 }}>
-      <Typography variant="body2" color="text.secondary" sx={{ p: 0, m: 0 }}>
-        Tasks Progress
-      </Typography>
-
+    <Box sx={{ width: 300, paddingTop: 2 }}>
       <Box
         sx={{
           position: "relative",

@@ -33,7 +33,7 @@ export default function DataPanel({
   // Get only items for current page
   const pagedData = filteredData.slice(
     (page - 1) * itemsPerPage,
-    page * itemsPerPage
+    page * itemsPerPage,
   );
 
   return (

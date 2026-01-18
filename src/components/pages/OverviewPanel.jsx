@@ -27,7 +27,7 @@ ChartJS.register(
   LinearScale,
   Legend,
   Tooltip,
-  Title
+  Title,
 );
 
 export default function OverviewPanel() {

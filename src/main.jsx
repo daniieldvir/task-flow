@@ -39,5 +39,5 @@ createRoot(document.getElementById("root")).render(
         </FilterProvider>
       </AuthProvider>
     </ThemeProvider>
-  </QueryClientProvider>
+  </QueryClientProvider>,
 );

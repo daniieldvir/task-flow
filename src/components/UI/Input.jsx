@@ -18,7 +18,6 @@ export default function Input({ field, value, handleChange, type }) {
     <input
       id={field.name}
       type={type || "text"}
-      required={field.required}
       placeholder={field.placeholder}
       value={value}
       onChange={(e) => handleChange(field.name, e.target.value)}
