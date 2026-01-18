@@ -1,10 +1,10 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   createAlert,
   deleteAlert,
   fetchAlerts,
   updateAlert,
-} from "../api/alerts";
+} from "@/api/alerts.jsx";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 // Fetch all alerts
 export const useAlerts = () => {
