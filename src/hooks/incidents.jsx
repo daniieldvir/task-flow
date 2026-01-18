@@ -3,7 +3,7 @@ import {
   deleteIncident,
   fetchIncidents,
   updateIncident,
-} from "@/api/incidents.jsx";
+} from "@/api/incidents";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 // Fetch all incidents

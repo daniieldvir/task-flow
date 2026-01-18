@@ -19,7 +19,6 @@ export default function DataPreview({
     weekday: "short",
     year: "numeric",
     month: "short",
-    month: "short",
     day: "numeric",
   });
 

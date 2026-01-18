@@ -3,7 +3,7 @@ import {
   deleteAlert,
   fetchAlerts,
   updateAlert,
-} from "@/api/alerts.jsx";
+} from "@/api/alerts";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 // Fetch all alerts
