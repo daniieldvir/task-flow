@@ -1,10 +1,10 @@
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   createIncident,
   deleteIncident,
   fetchIncidents,
   updateIncident,
-} from "@/api/incidents";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+} from "../api/incidents.jsx";
 
 // Fetch all incidents
 export const useIncidents = () => {
