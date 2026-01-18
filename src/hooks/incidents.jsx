@@ -4,7 +4,7 @@ import {
   deleteIncident,
   fetchIncidents,
   updateIncident,
-} from "../api/incidents";
+} from "../api/incidents.jsx";
 
 // Fetch all incidents
 export const useIncidents = () => {

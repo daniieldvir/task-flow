@@ -1,5 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createTask, deleteTask, fetchTasks, updateTask } from "../api/tasks";
+import {
+  createTask,
+  deleteTask,
+  fetchTasks,
+  updateTask,
+} from "../api/tasks.jsx";
 
 // Fetch all tasks
 export const useTasks = () => {
