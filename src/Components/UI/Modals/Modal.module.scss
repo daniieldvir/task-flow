@@ -4,38 +4,43 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: var(--modal-overlay);
   backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
   padding: 1rem;
+  transition: background 0.3s ease;
 
   /* Delete overlay variation */
   &.deleteOverlay {
-    background: rgba(255, 77, 79, 0.2); // subtle red tint
+    background: var(--delete-overlay);
   }
 }
 
 .modal {
-  background: radial-gradient(circle at top, #020617, #020617);
-  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: var(--modal-bg);
+  border: 1px solid var(--modal-border);
   border-radius: 0.75rem;
   width: 100%;
   max-width: 500px;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--modal-shadow);
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
 
   /* Delete modal variation */
   &.deleteModal {
-    background-color: #fff0f0; // light red background
-    border: 1px solid #ff4d4f;
+    background: var(--delete-modal-bg);
+    border: 1px solid var(--delete-modal-border);
     box-shadow: 0 20px 60px rgba(255, 77, 79, 0.3);
 
     .header h2 {
-      color: #ff4d4f;
+      color: var(--delete-text);
     }
   }
 }
@@ -45,22 +50,24 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.25rem 1.5rem;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+  border-bottom: 1px solid var(--border-color-subtle);
+  transition: border-color 0.3s ease;
 
   h2 {
     margin: 0;
     font-size: 1.25rem;
     font-weight: 600;
-    color: #e2e8f0;
+    color: var(--text-primary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    transition: color 0.3s ease;
   }
 }
 
 .closeButton {
   background: transparent;
   border: none;
-  color: #94a3b8;
+  color: var(--button-close-color);
   font-size: 2rem;
   line-height: 1;
   cursor: pointer;
@@ -76,8 +83,8 @@
     background 0.15s ease;
 
   &:hover {
-    color: #e2e8f0;
-    background: rgba(148, 163, 184, 0.1);
+    color: var(--button-close-hover-color);
+    background: var(--button-close-hover-bg);
   }
 }
 
@@ -86,7 +93,7 @@
 
   /* Delete modal content optional adjustments */
   .deleteContent {
-    color: #b91c1c; // dark red text for warnings
+    color: var(--delete-text);
     font-weight: 500;
   }
 }
@@ -113,16 +120,17 @@
   }
 
   .cancelBtn {
-    background-color: #f3f4f6;
-    color: #374151;
+    background-color: var(--button-secondary-bg);
+    color: var(--button-secondary-text);
     padding: 0.5rem 1rem;
     border-radius: 0.375rem;
     border: none;
     cursor: pointer;
     font-weight: 500;
+    transition: background 0.15s ease;
 
     &:hover {
-      background-color: #e5e7eb;
+      background-color: var(--button-secondary-hover);
     }
   }
 }

@@ -12,36 +12,10 @@
   label {
     font-size: 0.8rem;
     font-weight: 500;
-    color: #94a3b8;
+    color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
-  }
-
-  input,
-  select,
-  textarea {
-    padding: 0.6rem 0.8rem;
-    border-radius: 0.5rem;
-    border: 1px solid rgba(51, 65, 85, 0.9);
-    background: rgba(15, 23, 42, 0.8);
-    color: #e2e8f0;
-    font-size: 0.9rem;
-    outline: none;
-    transition: border-color 0.15s ease;
-
-    &:focus {
-      border-color: #38bdf8;
-      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.2);
-    }
-
-    &::placeholder {
-      color: #64748b;
-    }
-  }
-
-  textarea {
-    resize: vertical;
-    font-family: inherit;
+    transition: color 0.3s ease;
   }
 }
 
@@ -55,9 +29,9 @@
 .cancelButton {
   padding: 0.45rem 0.9rem;
   border-radius: 0.6rem;
-  border: 1px solid rgba(148, 163, 184, 0.5);
+  border: 1px solid var(--button-action-border);
   background: transparent;
-  color: #94a3b8;
+  color: var(--button-action-text);
   font-size: 0.8rem;
   font-weight: 500;
   text-transform: uppercase;
@@ -68,7 +42,7 @@
     border-color 0.15s ease;
 
   &:hover {
-    color: #e2e8f0;
-    border-color: rgba(148, 163, 184, 0.8);
+    color: var(--button-hover-text);
+    border-color: var(--button-action-hover-border);
   }
 }

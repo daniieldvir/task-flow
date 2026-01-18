@@ -6,10 +6,10 @@ import {
   useUpdateAlert,
 } from "../../hooks/alerts";
 import { useFilter } from "../../hooks/useFilter";
-import AddForm from "../UI/ActionsPages/AddForm";
-import DeleteModal from "../UI/ActionsPages/DeleteModal";
-import Modal from "../UI/ActionsPages/Modal";
+import AddForm from "../UI/AddForm";
 import DataPanel from "../UI/DataDisplay/DataPanel";
+import DeleteModal from "../UI/Modals/DeleteModal";
+import Modal from "../UI/Modals/Modal";
 
 export default function AlertsPanel() {
   const { data: alerts = [], isLoading, error } = useAlerts();

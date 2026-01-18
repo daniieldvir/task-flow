@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE = "http://localhost:3000/api";
+const API_BASE = "https://task-flow-backend-t5ng.onrender.com/api";
 
 export const fetchTasks = async (page, pageSize) => {
   const params = new URLSearchParams();

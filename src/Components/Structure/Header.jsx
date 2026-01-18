@@ -1,3 +1,4 @@
+import ThemeToggle from "../UI/ThemeToggle";
 import UserAvater from "../UI/UserAvater";
 import styles from "./Header.module.scss";
 
@@ -11,7 +12,10 @@ export default function Header() {
         </span>
       </div>
 
-      <UserAvater />
+      <div className={styles.right}>
+        <ThemeToggle />
+        <UserAvater />
+      </div>
     </header>
   );
 }

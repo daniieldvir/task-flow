@@ -6,9 +6,9 @@
   padding: 0.45rem 0.9rem;
   border-radius: 0.6rem;
 
-  border: 1px solid rgba(148, 163, 184, 0.5); // slate-400
-  background: rgba(15, 23, 42, 0.9); // dark background
-  color: #e5e7eb; // light text
+  border: 1px solid var(--button-action-border);
+  background: var(--button-action-bg);
+  color: var(--button-action-text);
 
   font-size: 0.8rem;
   font-weight: 500;
@@ -28,25 +28,25 @@
     pointer-events: none;
   }
 
-  &:hover {
-    background: rgba(30, 64, 175, 0.9); // soft blue
-    border-color: rgba(129, 140, 248, 0.8);
+  &:hover:not(:disabled) {
+    background: var(--button-action-hover-bg);
+    border-color: var(--button-action-hover-border);
     transform: translateY(-1px);
   }
 
-  &:active {
+  &:active:not(:disabled) {
     transform: translateY(0);
   }
 
   &:disabled {
     opacity: 0.5;
-    cursor: default;
+    cursor: not-allowed;
+    pointer-events: none;
   }
 }
 
-/* For nav / selected state (used by Button.jsx with isActive) */
 .active {
   @extend .button;
-  background: rgba(30, 64, 175, 1);
-  border-color: rgba(129, 140, 248, 1);
+  background: var(--button-action-active-bg);
+  border-color: var(--button-action-active-border);
 }

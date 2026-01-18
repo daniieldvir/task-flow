@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth } from "../../../hooks/authContext";
 import ActionButton from "../Buttons/ActionButton";
 import Card from "../Cards/Card";
 import Pageing from "../Pageing";
@@ -20,6 +21,7 @@ export default function DataPanel({
   itemsPerPage = 10, // optional default page size
 }) {
   const [page, setPage] = useState(initialPage);
+  const { isAuthenticated } = useAuth();
 
   const filteredData =
     filter === "All"
@@ -38,7 +40,13 @@ export default function DataPanel({
     <div className={styles.panel}>
       <div className={styles.header}>
         <h2>{panelTitle}</h2>
-        {onAdd && <ActionButton onClick={onAdd} label="Add" />}
+        {onAdd && (
+          <ActionButton
+            onClick={onAdd}
+            label="Add"
+            disabled={!isAuthenticated}
+          />
+        )}
       </div>
 
       {filteredData.length === 0 ? (

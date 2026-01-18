@@ -7,6 +7,8 @@ import IncidentsPanel from "./components/pages/IncidentsPanel";
 import OverviewPanel from "./components/pages/OverviewPanel";
 import TasksPanel from "./components/pages/TasksPanel";
 import RootLayout from "./components/Routes/RootLayout";
+import { AuthProvider } from "./hooks/authContext";
+import { ThemeProvider } from "./hooks/themeContext";
 import { FilterProvider } from "./hooks/useFilter";
 import "./index.scss";
 
@@ -30,8 +32,12 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   <QueryClientProvider client={queryClient}>
-    <FilterProvider>
-      <RouterProvider router={router} />
-    </FilterProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <FilterProvider>
+          <RouterProvider router={router} />
+        </FilterProvider>
+      </AuthProvider>
+    </ThemeProvider>
   </QueryClientProvider>
 );

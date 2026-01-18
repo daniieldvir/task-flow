@@ -1,9 +1,9 @@
 .button {
   width: 100%;
   border-radius: 999px;
-  border: 1px solid transparent;
-  background: transparent;
-  color: #e5e7eb;
+  border: 1px solid var(--button-border);
+  background: var(--button-bg);
+  color: var(--button-text);
   display: inline-flex;
   align-items: center;
   justify-content: flex-start;
@@ -22,9 +22,9 @@
   }
 
   &:hover {
-    background: rgba(30, 64, 175, 0.32);
-    border-color: rgba(59, 130, 246, 0.8);
-    color: #eff6ff;
+    background: var(--button-hover-bg);
+    border-color: var(--button-hover-border);
+    color: var(--button-hover-text);
   }
 
   &:active {
@@ -32,9 +32,9 @@
   }
 
   &.active {
-    background: linear-gradient(135deg, #1d4ed8, #0ea5e9);
+    background: var(--button-active-bg);
     border-color: transparent;
-    color: #eff6ff;
-    box-shadow: 0 1px 10px rgba(37, 99, 235, 0.8);
+    color: var(--button-active-text);
+    box-shadow: var(--button-active-shadow);
   }
 }
