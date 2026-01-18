@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import AlertsPanel from "./components/pages/AlertsPanel.jsx";
 import IncidentsPanel from "./components/pages/IncidentsPanel.jsx";
 import OverviewPanel from "./components/pages/OverviewPanel.jsx";
@@ -14,7 +14,7 @@ import "./index.scss";
 
 const queryClient = new QueryClient();
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <RootLayout />,
