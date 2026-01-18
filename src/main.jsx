@@ -6,7 +6,7 @@ import AlertsPanel from "./components/pages/AlertsPanel.jsx";
 import IncidentsPanel from "./components/pages/IncidentsPanel.jsx";
 import OverviewPanel from "./components/pages/OverviewPanel.jsx";
 import TasksPanel from "./components/pages/TasksPanel.jsx";
-import RootLayout from "./components/Routes/RootLayout.jsx";
+import RootLayout from "./components/routes/RootLayout.jsx";
 import { AuthProvider } from "./hooks/authContext.jsx";
 import { ThemeProvider } from "./hooks/themeContext.jsx";
 import { FilterProvider } from "./hooks/useFilter.jsx";
