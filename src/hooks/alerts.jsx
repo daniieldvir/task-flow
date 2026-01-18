@@ -4,7 +4,7 @@ import {
   deleteAlert,
   fetchAlerts,
   updateAlert,
-} from "../api/alerts.jsx";
+} from "../api/alerts";
 
 // Fetch all alerts
 export const useAlerts = () => {
