@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   useAlerts,
   useCreateAlert,
@@ -9,73 +9,75 @@ import { useAuth } from "../../hooks/authContext";
 import { useFilter } from "../../hooks/useFilter";
 import AddForm from "../shared/AddForm";
 import DataPanel from "../shared/DataPanel";
+import AppSnackbar from "../shared/Snackbar";
 import DeleteModal from "../UI/Modals/DeleteModal";
 import Modal from "../UI/Modals/Modal";
+import { deleteMessages } from "../utils/SnackbarMessage";
 
 export default function AlertsPanel() {
+  const snackbarRef = useRef();
   const { data: alerts = [], isLoading, error } = useAlerts();
   const { filter } = useFilter();
   const { loginUser } = useAuth();
 
-  const [isAddEditModalOpen, setIsAddEditModalOpen] = useState(false);
-  const [alertToEdit, setAlertToEdit] = useState(null);
-
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [alertToDelete, setAlertToDelete] = useState(null);
+  const [modal, setModal] = useState({
+    type: null, // 'add' | 'edit' | 'delete'
+    alert: null,
+  });
 
   const createAlertsMutation = useCreateAlert();
   const updateAlertMutation = useUpdateAlert();
-  const deleteAlertMutation = useDeleteAlert();
+  const deleteAlertMutation = useDeleteAlert({
+    onError: (err) => {
+      snackbarRef.current.show(err?.message || deleteMessages.error("Alert"));
+    },
+    onSuccess: () => {
+      snackbarRef.current.show(deleteMessages.success("Alert"));
+      setModal({ type: null, alert: null });
+    },
+  });
 
   const handleAddClicked = async () => {
-    setAlertToEdit(null);
-    setIsAddEditModalOpen(true);
+    setModal({ type: "add", alert: null });
   };
 
   const handleEditClicked = async (alert) => {
-    setAlertToEdit(alert);
-    setIsAddEditModalOpen(true);
+    setModal({ type: "edit", alert });
   };
 
-  const handleDeleteClicked = async (id) => {
-    setAlertToDelete(id);
-    setIsDeleteModalOpen(true);
+  const handleDeleteClicked = async (alartId) => {
+    setModal({ type: "delete", alert: alartId });
   };
 
   const handleCreate = async (alertData) => {
-    if (!alertToEdit) {
+    if (modal.type === "add") {
       createAlertsMutation.mutate({
         ...alertData,
         source: loginUser.username,
         createDate: new Date(),
       });
-    } else {
+    }
+    if (modal.type === "edit") {
       updateAlertMutation.mutate({
-        id: alertToEdit.id,
+        id: modal.alert.id,
         data: alertData,
       });
     }
-    setIsAddEditModalOpen(false);
-    setAlertToEdit(null);
+    handleCancel();
   };
 
   const handleDelete = async () => {
-    deleteAlertMutation.mutate(alertToDelete);
-    setIsDeleteModalOpen(false);
-    setAlertToDelete(null);
+    if (modal.type === "delete" && modal.alert) {
+      deleteAlertMutation.mutate(modal.alert);
+    }
   };
 
   const handleCancel = async () => {
-    setIsAddEditModalOpen(false);
-    setIsDeleteModalOpen(false);
-    setAlertToEdit(null);
-    setAlertToDelete(null);
+    setModal({ type: null, alert: null });
   };
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
-
-  const addEditTitelModal = !!alertToEdit ? "edit alert" : "create new alert";
 
   return (
     <>
@@ -93,19 +95,19 @@ export default function AlertsPanel() {
       />
 
       <DeleteModal
-        isOpen={isDeleteModalOpen}
-        onClose={handleCancel}
+        isOpen={modal.type === "delete"}
         entity="Alert"
+        onClose={handleCancel}
         onConfirm={handleDelete}
       />
 
       <Modal
-        isOpen={isAddEditModalOpen}
+        isOpen={modal.type === "add" || modal.type === "edit"}
+        title={modal.type === "edit" ? "edit alert" : "create new alert"}
         onClose={handleCancel}
-        title={addEditTitelModal}
       >
         <AddForm
-          initialData={alertToEdit || {}}
+          initialData={modal.alert || {}}
           title="Create Alert"
           submitLabel="Create Alert"
           onSubmit={handleCreate}
@@ -138,6 +140,7 @@ export default function AlertsPanel() {
           ]}
         />
       </Modal>
+      <AppSnackbar ref={snackbarRef} />
     </>
   );
 }

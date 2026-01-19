@@ -23,7 +23,6 @@ export const useIncidents = (callbacks = {}) => {
       if (onSuccess) onSuccess(data);
     },
     onError: (err) => {
-      console.error("Error fetching incidents:", err);
       if (onError) onError(err);
     },
   });
@@ -44,7 +43,6 @@ export const useCreateIncidents = (callbacks = {}) => {
       if (onSuccess) onSuccess(newIncident);
     },
     onError: (err) => {
-      console.error("Error creating incident:", err);
       if (onError) onError(err);
     },
   });
@@ -79,15 +77,14 @@ export const useDeleteIncidents = (callbacks = {}) => {
 
   return useMutation({
     mutationFn: (id) => deleteIncident(id),
-    onError: (err) => {
-      if (onError) onError(err);
-    },
     onSuccess: (data, id) => {
       queryClient.setQueryData(["incidents"], (oldIncidents = []) =>
         oldIncidents.filter((incident) => incident.id !== id),
       );
-
       if (onSuccess) onSuccess(data, id);
+    },
+    onError: (err) => {
+      if (onError) onError(err);
     },
   });
 };

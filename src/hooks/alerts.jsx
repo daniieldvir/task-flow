@@ -7,7 +7,8 @@ import {
 } from "../api/alerts.jsx";
 
 // Fetch all alerts
-export const useAlerts = () => {
+export const useAlerts = (callbacks = {}) => {
+  const { onError, onSuccess } = callbacks;
   return useQuery({
     queryKey: ["alerts"],
     queryFn: async () => {
@@ -18,11 +19,18 @@ export const useAlerts = () => {
           new Date(b.createDate).getTime() - new Date(a.createDate).getTime(),
       );
     },
+    onSuccess: (data) => {
+      if (onSuccess) onSuccess(data);
+    },
+    onError: (err) => {
+      if (onError) onError(err);
+    },
   });
 };
 
 // Create a new alert
-export const useCreateAlert = () => {
+export const useCreateAlert = (callbacks = {}) => {
+  const { onError, onSuccess } = callbacks;
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -32,12 +40,17 @@ export const useCreateAlert = () => {
         newAlert,
         ...oldAlert,
       ]);
+      if (onSuccess) onSuccess(newAlert);
+    },
+    onError: (err) => {
+      if (onError) onError(err);
     },
   });
 };
 
 // Update an existing alert
-export const useUpdateAlert = () => {
+export const useUpdateAlert = (callbacks = {}) => {
+  const { onError, onSuccess } = callbacks;
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -48,20 +61,29 @@ export const useUpdateAlert = () => {
           alert.id === updatedAlert.id ? updatedAlert : alert,
         ),
       );
+      if (onSuccess) onSuccess(updatedAlert);
+    },
+    onError: (err) => {
+      if (onError) onError(err);
     },
   });
 };
 
 // Delete an alert
-export const useDeleteAlert = () => {
+export const useDeleteAlert = (callbacks = {}) => {
+  const { onError, onSuccess } = callbacks;
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (id) => deleteAlert(id),
-    onSuccess: (_, id) => {
+    onSuccess: (data, id) => {
       queryClient.setQueryData(["alerts"], (oldAlerts = []) =>
         oldAlerts.filter((alert) => alert.id !== id),
       );
+      if (onSuccess) onSuccess(data, id);
+    },
+    onError: (err) => {
+      if (onError) onError(err);
     },
   });
 };

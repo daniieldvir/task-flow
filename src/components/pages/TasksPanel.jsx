@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useAuth } from "../../hooks/authContext";
 import {
   useCreateTask,
@@ -9,75 +9,86 @@ import {
 import { useFilter } from "../../hooks/useFilter";
 import AddForm from "../shared/AddForm";
 import DataPanel from "../shared/DataPanel";
+import AppSnackbar from "../shared/Snackbar";
 import DeleteModal from "../UI/Modals/DeleteModal";
 import Modal from "../UI/Modals/Modal";
+import { deleteMessages, updateMessages } from "../utils/SnackbarMessage";
 
 export default function TasksPanel() {
+  const snackbarRef = useRef();
   const { data: tasks = [], isLoading, error } = useTasks();
   const { loginUser } = useAuth();
   const { filter } = useFilter();
 
-  console.log(loginUser, "loginUser");
-
-  const [isAddEditModalOpen, setIsAddEditModalOpen] = useState(false);
-  const [taskToEdit, setTasktToEdit] = useState(null);
-
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [taskToDelete, setTaskToDelete] = useState(null);
+  const [modal, setModal] = useState({
+    type: null, // 'add' | 'edit' | 'delete'
+    task: null,
+  });
 
   const createTaskMutation = useCreateTask();
-  const updateTaskMutation = useUpdateTask();
-  const deleteTaskMutation = useDeleteTask();
+  const updateTaskMutation = useUpdateTask({
+    onError: (err) => {
+      snackbarRef.current.show(err?.message || updateMessages.error("Task"));
+    },
+    onSuccess: () => {
+      snackbarRef.current.show(updateMessages.success("Task"));
+      setModal({ type: null, task: null });
+    },
+  });
+
+  const deleteTaskMutation = useDeleteTask({
+    onError: (err) => {
+      snackbarRef.current.show(err?.message || deleteMessages.error("Task"));
+    },
+    onSuccess: () => {
+      snackbarRef.current.show(deleteMessages.success("Task"));
+      setModal({ type: null, task: null });
+    },
+  });
 
   const handleAddClicked = async () => {
-    setTasktToEdit(null);
-    setIsAddEditModalOpen(true);
+    setModal({ type: "add", task: null });
   };
 
   const handleEditClicked = async (task) => {
-    setTasktToEdit(task);
-    setIsAddEditModalOpen(true);
+    setModal({ type: "edit", task });
   };
 
-  const handleDeleteClicked = async (id) => {
-    setTaskToDelete(id);
-    setIsDeleteModalOpen(true);
+  const handleDeleteClicked = async (taskId) => {
+    setModal({ type: "delete", task: taskId });
   };
 
   const handleCreate = (taskData) => {
-    if (!taskToEdit) {
+    if (modal.type === "add") {
       createTaskMutation.mutate({
         ...taskData,
         author: loginUser.username,
         createDate: new Date(),
       });
-    } else {
+    }
+
+    if (modal.type === "edit") {
       updateTaskMutation.mutate({
-        id: taskToEdit.id,
+        id: modal.task.id,
         data: taskData,
       });
     }
-    setIsAddEditModalOpen(false);
-    setTasktToEdit(null);
+
+    handleCancel();
   };
 
   const handleDelete = async () => {
-    deleteTaskMutation.mutate(taskToDelete);
-    setIsDeleteModalOpen(false);
-    setTaskToDelete(null);
+    if (modal.type === "delete" && modal.task) {
+      deleteTaskMutation.mutate(modal.task);
+    }
   };
 
   const handleCancel = async () => {
-    setIsAddEditModalOpen(false);
-    setIsDeleteModalOpen(false);
-    setTaskToDelete(null);
-    setTasktToEdit(null);
+    setModal({ type: null, task: null });
   };
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
-
-  const addEditTitelModal = !!taskToEdit ? "edit task" : "create new task";
 
   return (
     <>
@@ -95,19 +106,19 @@ export default function TasksPanel() {
       />
 
       <DeleteModal
-        isOpen={isDeleteModalOpen}
-        onClose={handleCancel}
+        isOpen={modal.type === "delete"}
         entity="Alert"
+        onClose={handleCancel}
         onConfirm={handleDelete}
       />
 
       <Modal
-        isOpen={isAddEditModalOpen}
+        isOpen={modal.type === "add" || modal.type === "edit"}
+        title={modal.type === "edit" ? "edit task" : "create new task"}
         onClose={handleCancel}
-        title={addEditTitelModal}
       >
         <AddForm
-          initialData={taskToEdit || {}}
+          initialData={modal.task || {}}
           submitLabel="Create Task"
           onSubmit={handleCreate}
           onCancel={handleCancel}
@@ -139,6 +150,8 @@ export default function TasksPanel() {
           ]}
         />
       </Modal>
+
+      <AppSnackbar ref={snackbarRef} />
     </>
   );
 }

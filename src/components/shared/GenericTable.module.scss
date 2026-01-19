@@ -1,69 +1,68 @@
 .tableWraper {
+  display: flex;
+  flex-direction: column;
+  font-family: system-ui, sans-serif;
+  font-size: 14px;
+  width: 100%;
+
+  .row {
     display: flex;
-    flex-direction: column;
-    font-family: system-ui, sans-serif;
-    font-size: 14px;
-    width: 100%;
-  
-    .row {
-      display: flex;
-      border-bottom: 1px solid var(--border-color-subtle);
-      min-height: 54px;
-      align-items: center;
-      transition: background 0.2s;
-  
-      &:hover {
-        background: var(--bg-hover);
-      }
-    }
-  
-    .headerRow {
-      text-transform: uppercase;
-      font-weight: 500;
-      background-color: var(--bg-subtle);
-    }
-  
-    .cell {
-      padding: 10px 12px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      flex: 0 0 150px;
-  
-      &:first-child {
-        flex: 0 0 230px; 
-      }
-  
-      &.tableActions {
-        flex: 0 0 120px;
-        display: flex;
-        gap: 8px;
-      }
-    }
-  
-    .descriptionCell {
-      flex: 1 1 auto; 
-      min-width: 200px;
-  
-      .description {
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        line-height: 1.4;
-        word-break: break-word;
-      }
-    }
-  
-    .paging {
-      align-self: flex-end;
-      margin-top: 10px;
-    }
-  
-    .emptyState {
-      padding: 20px;
-      text-align: center;
-      color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-color-subtle);
+    min-height: 54px;
+    align-items: center;
+    transition: background 0.2s;
+
+    &:hover {
+      background: var(--bg-hover);
     }
   }
-  
+
+  .headerRow {
+    text-transform: uppercase;
+    font-weight: 500;
+    background-color: var(--bg-subtle);
+  }
+
+  .cell {
+    padding: 10px 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 0 0 150px;
+
+    &:first-child {
+      flex: 0 0 230px;
+    }
+
+    &.tableActions {
+      flex: 0 0 120px;
+      display: flex;
+      gap: 8px;
+    }
+  }
+
+  .descriptionCell {
+    flex: 1 1 auto;
+    min-width: 200px;
+
+    .description {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.4;
+      word-break: break-word;
+    }
+  }
+
+  .paging {
+    align-self: flex-end;
+    margin-top: 10px;
+  }
+
+  .emptyState {
+    padding: 20px;
+    text-align: center;
+    color: var(--text-secondary);
+  }
+}

@@ -7,7 +7,8 @@ import {
 } from "../api/tasks.jsx";
 
 // Fetch all tasks
-export const useTasks = () => {
+export const useTasks = (callbacks = {}) => {
+  const { onError, onSuccess } = callbacks;
   return useQuery({
     queryKey: ["tasks"],
     queryFn: async () => {
@@ -18,12 +19,19 @@ export const useTasks = () => {
           new Date(b.createDate).getTime() - new Date(a.createDate).getTime(),
       );
     },
+    onSuccess: (data) => {
+      if (onSuccess) onSuccess(data);
+    },
+    onError: (err) => {
+      if (onError) onError(err);
+    },
   });
 };
 
 // Create a new task
-export const useCreateTask = () => {
+export const useCreateTask = (callbacks = {}) => {
   const queryClient = useQueryClient();
+  const { onError, onSuccess } = callbacks;
 
   return useMutation({
     mutationFn: createTask,
@@ -32,13 +40,18 @@ export const useCreateTask = () => {
         newTask,
         ...oldTasks,
       ]);
+      if (onSuccess) onSuccess(newTask);
+    },
+    onError: (err) => {
+      if (onError) onError(err);
     },
   });
 };
 
 // Update an existing task
-export const useUpdateTask = () => {
+export const useUpdateTask = (callbacks = {}) => {
   const queryClient = useQueryClient();
+  const { onError, onSuccess } = callbacks;
 
   return useMutation({
     mutationFn: ({ id, data }) => updateTask(id, data),
@@ -48,20 +61,29 @@ export const useUpdateTask = () => {
           task.id === updatedTask.id ? updatedTask : task,
         ),
       );
+      if (onSuccess) onSuccess(updatedTask);
+    },
+    onError: (err) => {
+      if (onError) onError(err);
     },
   });
 };
 
 // Delete an task
-export const useDeleteTask = () => {
+export const useDeleteTask = (callbacks = {}) => {
   const queryClient = useQueryClient();
+  const { onError, onSuccess } = callbacks;
 
   return useMutation({
     mutationFn: (id) => deleteTask(id),
-    onSuccess: (_, id) => {
+    onSuccess: (data, id) => {
       queryClient.setQueryData(["tasks"], (oldTasks = []) =>
         oldTasks.filter((task) => task.id !== id),
       );
+      if (onSuccess) onSuccess(data, id);
+    },
+    onError: (err) => {
+      if (onError) onError(err);
     },
   });
 };

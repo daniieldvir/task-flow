@@ -1,6 +1,5 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-
 import { useRef, useState } from "react";
 import { useAuth } from "../../hooks/authContext";
 import {
@@ -18,86 +17,77 @@ import ButtonSVG from "../UI/Buttons/ButtonSVG";
 import DeleteModal from "../UI/Modals/DeleteModal";
 import Modal from "../UI/Modals/Modal";
 import Status from "../UI/Status";
+import { deleteMessages } from "../utils/SnackbarMessage";
 import styles from "./IncidentsPanel.module.scss";
 
 export default function IncidentsPanel() {
+  const snackbarRef = useRef();
   const { data: incidents = [], isLoading, error } = useIncidents();
   const { isAuthenticated } = useAuth();
 
   const { filter } = useFilter();
   const { loginUser } = useAuth();
-  const snackbarRef = useRef();
 
-  const [isAddEditModalOpen, setIsAddEditModalOpen] = useState(false);
-  const [incidentToEdit, setIncidentToEdit] = useState(null);
-
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [incidentToDelete, setIncidentToDelete] = useState(null);
+  const [modal, setModal] = useState({
+    type: null, // 'add' | 'edit' | 'delete'
+    incident: null,
+  });
 
   const createIncidentsMutation = useCreateIncidents();
   const updateIncidentsMutation = useUpdateIncidents();
   const deleteIncidentsMutation = useDeleteIncidents({
     onError: (err) => {
-      snackbarRef.current.show(err?.message || "Something went wrong");
+      snackbarRef.current.show(
+        err?.message || deleteMessages.error("Incident"),
+      );
     },
     onSuccess: () => {
-      snackbarRef.current.show("Incident deleted successfully");
-      setIncidentToDelete(null);
-      setIsDeleteModalOpen(false);
+      snackbarRef.current.show(deleteMessages.success("Incident"));
+      setModal({ type: null, incident: null });
     },
   });
 
   const handleAddClicked = async () => {
-    setIncidentToEdit(null);
-    setIsAddEditModalOpen(true);
+    setModal({ type: "add", incident: null });
   };
 
   const handleEditClicked = async (incident) => {
-    setIncidentToEdit(incident);
-    setIsAddEditModalOpen(true);
+    setModal({ type: "edit", incident });
   };
 
-  const handleDeleteClicked = async (id) => {
-    setIncidentToDelete(id);
-    setIsDeleteModalOpen(true);
+  const handleDeleteClicked = async (incidentId) => {
+    setModal({ type: "delete", incident: incidentId });
   };
 
   const handleCreate = async (incidentData) => {
-    if (!incidentToEdit) {
+    if (modal.type === "add") {
       createIncidentsMutation.mutate({
         ...incidentData,
         reportedBy: loginUser.username,
         createDate: new Date(),
       });
-    } else {
+    }
+    if (modal.type === "edit") {
       updateIncidentsMutation.mutate({
-        id: incidentToEdit.id,
+        id: modal.incident.id,
         data: incidentData,
       });
     }
-    setIsAddEditModalOpen(false);
-    setIncidentToEdit(null);
+    handleCancel();
   };
 
   const handleDelete = () => {
-    if (incidentToDelete) {
-      deleteIncidentsMutation.mutate(incidentToDelete);
+    if (modal.type === "delete" && modal.incident) {
+      deleteIncidentsMutation.mutate(modal.incident);
     }
   };
 
   const handleCancel = async () => {
-    setIsAddEditModalOpen(false);
-    setIsDeleteModalOpen(false);
-    setIncidentToEdit(null);
-    setIncidentToDelete(null);
+    setModal({ type: null, incident: null });
   };
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
-
-  const addEditTitelModal = !!incidentToEdit
-    ? "edit incident"
-    : "create new incident";
 
   return (
     <>
@@ -143,19 +133,19 @@ export default function IncidentsPanel() {
       />
 
       <DeleteModal
-        isOpen={isDeleteModalOpen}
-        onClose={handleCancel}
+        isOpen={modal.type === "delete"}
         entity="incident"
+        onClose={handleCancel}
         onConfirm={handleDelete}
       />
 
       <Modal
-        isOpen={isAddEditModalOpen}
+        isOpen={modal.type === "add" || modal.type === "edit"}
+        title={modal.type === "edit" ? "edit incident" : "create new incident"}
         onClose={handleCancel}
-        title={addEditTitelModal}
       >
         <AddForm
-          initialData={incidentToEdit || {}}
+          initialData={modal.incident || {}}
           onSubmit={handleCreate}
           onCancel={handleCancel}
           fields={[
