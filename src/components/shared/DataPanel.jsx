@@ -68,12 +68,14 @@ export default function DataPanel({
             ))}
           </ul>
 
-          <Pageing
-            className={styles.paging}
-            page={page}
-            totalPages={totalPages}
-            setPage={setPage}
-          />
+          {filteredData.length > itemsPerPage && (
+        <Pageing
+          page={page}
+          totalPages={Math.ceil(filteredData.length / itemsPerPage)}
+          setPage={setPage}
+          className={styles.paging}
+        />
+      )}
         </div>
       )}
     </div>

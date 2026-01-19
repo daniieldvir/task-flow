@@ -126,9 +126,10 @@ export default function AlertsPanel() {
               name: "severity",
               label: "Severity",
               type: "select",
-              defaultValue: "Warning",
+              defaultValue: "Info",
               options: [
                 { label: "Critical", value: "Critical" },
+                { label: "Info", value: "Info" },
                 { label: "Warning", value: "Warning" },
                 { label: "Resolved", value: "Resolved" },
               ],
