@@ -7,8 +7,8 @@ import {
 } from "../../hooks/alerts";
 import { useAuth } from "../../hooks/authContext";
 import { useFilter } from "../../hooks/useFilter";
-import AddForm from "../UI/AddForm";
-import DataPanel from "../UI/DataDisplay/DataPanel";
+import AddForm from "../shared/AddForm";
+import DataPanel from "../shared/DataPanel";
 import DeleteModal from "../UI/Modals/DeleteModal";
 import Modal from "../UI/Modals/Modal";
 

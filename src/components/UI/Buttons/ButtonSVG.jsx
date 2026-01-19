@@ -7,7 +7,7 @@ export default function ButtonSVG({ className, icon, onClick, disabled }) {
       onClick={onClick}
       disabled={disabled}
     >
-      {!disabled && icon}
+      {icon}
     </button>
   );
 }

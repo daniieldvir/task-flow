@@ -1,8 +1,8 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { useAuth } from "../../../hooks/authContext";
-import ButtonSVG from "../Buttons/ButtonSVG";
-import Status from "../Status";
+import { useAuth } from "../../hooks/authContext";
+import ButtonSVG from "../UI/Buttons/ButtonSVG";
+import Status from "../UI/Status";
 import styles from "./DataPreview.module.scss";
 
 export default function DataPreview({

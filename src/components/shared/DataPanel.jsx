@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useAuth } from "../../../hooks/authContext";
-import ActionButton from "../Buttons/ActionButton";
-import Card from "../Cards/Card";
-import Pageing from "../Pageing";
+import { useAuth } from "../../hooks/authContext";
+import ActionButton from "../UI/Buttons/ActionButton";
+import Card from "../UI/Cards/Card";
+import Pageing from "../UI/Pageing";
 import styles from "./DataPanel.module.scss";
 import DataPreview from "./DataPreview";
 

@@ -8,7 +8,8 @@
     color: orange;
   }
 
-  &.completed {
+  &.completed,
+  &.low {
     color: #007bff;
   }
 

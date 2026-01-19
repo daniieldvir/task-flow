@@ -10,7 +10,7 @@ export default function Pageing({ page, totalPages, setPage, className }) {
         icon={<ArrowBackIosIcon />}
         onClick={() => setPage(page - 1)}
         className=""
-        disabled={page <= 1} // pass disabled if you extend ButtonSVG to accept it
+        disabled={page <= 1}
       />
       <span>
         Page {page} of {totalPages}

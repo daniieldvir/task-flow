@@ -1,4 +1,7 @@
-import { useState } from "react";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+
+import { useRef, useState } from "react";
 import { useAuth } from "../../hooks/authContext";
 import {
   useCreateIncidents,
@@ -7,15 +10,24 @@ import {
   useUpdateIncidents,
 } from "../../hooks/incidents";
 import { useFilter } from "../../hooks/useFilter";
-import AddForm from "../UI/AddForm";
-import DataPanel from "../UI/DataDisplay/DataPanel";
+import AddForm from "../shared/AddForm";
+import GenericTable from "../shared/GenericTable";
+import AppSnackbar from "../shared/Snackbar";
+import ActionButton from "../UI/Buttons/ActionButton";
+import ButtonSVG from "../UI/Buttons/ButtonSVG";
 import DeleteModal from "../UI/Modals/DeleteModal";
 import Modal from "../UI/Modals/Modal";
+import Status from "../UI/Status";
+import styles from "./IncidentsPanel.module.scss";
 
 export default function IncidentsPanel() {
   const { data: incidents = [], isLoading, error } = useIncidents();
+  const { isAuthenticated } = useAuth();
+
+  console.log("incidents", incidents);
   const { filter } = useFilter();
   const { loginUser } = useAuth();
+  const snackbarRef = useRef();
 
   const [isAddEditModalOpen, setIsAddEditModalOpen] = useState(false);
   const [incidentToEdit, setIncidentToEdit] = useState(null);
@@ -25,7 +37,16 @@ export default function IncidentsPanel() {
 
   const createIncidentsMutation = useCreateIncidents();
   const updateIncidentsMutation = useUpdateIncidents();
-  const deleteIncidentsMutation = useDeleteIncidents();
+  const deleteIncidentsMutation = useDeleteIncidents({
+    onError: (err) => {
+      snackbarRef.current.show(err?.message || "Something went wrong");
+    },
+    onSuccess: () => {
+      snackbarRef.current.show("Incident deleted successfully");
+      setIncidentToDelete(null);
+      setIsDeleteModalOpen(false);
+    },
+  });
 
   const handleAddClicked = async () => {
     setIncidentToEdit(null);
@@ -59,10 +80,10 @@ export default function IncidentsPanel() {
     setIncidentToEdit(null);
   };
 
-  const handleDelete = async () => {
-    deleteIncidentsMutation.mutate(incidentToDelete);
-    setIsDeleteModalOpen(false);
-    setIncidentToDelete(null);
+  const handleDelete = () => {
+    if (incidentToDelete) {
+      deleteIncidentsMutation.mutate(incidentToDelete);
+    }
   };
 
   const handleCancel = async () => {
@@ -81,17 +102,43 @@ export default function IncidentsPanel() {
 
   return (
     <>
-      <DataPanel
+      <header className={styles.header}>
+        <h2>Incident</h2>
+        <ActionButton
+          onClick={handleAddClicked}
+          label="Add"
+          disabled={!isAuthenticated}
+        />
+      </header>
+
+      <GenericTable
         data={incidents}
-        filter={filter}
-        filterField="severity"
-        titleField="title"
-        sourceField="reportedBy"
-        emptyMessage="No incidents"
-        panelTitle="Incidents"
-        onAdd={handleAddClicked}
-        onEdit={(incident) => handleEditClicked(incident)}
-        onDelete={(incident) => handleDeleteClicked(incident)}
+        columns={[
+          { key: "title", label: "Title" },
+          { key: "description", label: "Description" },
+          {
+            key: "priority",
+            label: "Priority",
+            render: (val) => <Status statusKey={val} />,
+          },
+          { key: "createDate", label: "Create Date" },
+          { key: "reportedBy", label: "Reported By" },
+        ]}
+        renderActions={(incident) => (
+          <>
+            <ButtonSVG
+              icon={<EditIcon />}
+              onClick={() => handleEditClicked(incident)}
+              disabled={!isAuthenticated}
+            />
+            <ButtonSVG
+              icon={<DeleteIcon />}
+              onClick={() => handleDeleteClicked(incident.id)}
+              disabled={!isAuthenticated}
+            />
+          </>
+        )}
+        itemsPerPage={10}
       />
 
       <DeleteModal
@@ -119,14 +166,14 @@ export default function IncidentsPanel() {
               placeholder: "Enter incident name",
             },
             {
-              name: "severity",
-              label: "Severity",
+              name: "priority",
+              label: "Priority",
               type: "select",
-              defaultValue: "Warning",
+              defaultValue: "Low",
               options: [
-                { label: "Critical", value: "Critical" },
+                { label: "Low", value: "Low" },
                 { label: "Warning", value: "Warning" },
-                { label: "Resolved", value: "Resolved" },
+                { label: "Critical", value: "Critical" },
               ],
             },
             {
@@ -138,6 +185,8 @@ export default function IncidentsPanel() {
           ]}
         />
       </Modal>
+
+      <AppSnackbar ref={snackbarRef} />
     </>
   );
 }

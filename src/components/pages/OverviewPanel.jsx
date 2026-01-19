@@ -112,12 +112,12 @@ export default function OverviewPanel() {
           <PieChart data={tasks} value="status" />
         </Card>
         <Card className={styles.chartsInfo}>
-          <p>Incidents by severity</p>
+          <p>Incidents by priority</p>
           <PieChart
             data={incidents}
-            value="severity"
-            colors={["#ff0000", "orange", "rgb(57, 159, 254"]}
-            borderColors={["#ff0000", "orange", "rgb(57, 159, 254"]}
+            value="priority"
+            colors={["rgb(57, 159, 254)", "orange", "#ff0000"]}
+            borderColors={["rgb(57, 159, 254)", "orange", "#ff0000"]}
           />
         </Card>
       </div>

@@ -7,23 +7,32 @@ import {
 } from "../api/incidents.jsx";
 
 // Fetch all incidents
-export const useIncidents = () => {
+export const useIncidents = (callbacks = {}) => {
+  const { onError, onSuccess } = callbacks;
+
   return useQuery({
     queryKey: ["incidents"],
     queryFn: async () => {
       const incidents = await fetchIncidents();
-
       return [...incidents].sort(
         (a, b) =>
           new Date(b.createDate).getTime() - new Date(a.createDate).getTime(),
       );
     },
+    onSuccess: (data) => {
+      if (onSuccess) onSuccess(data);
+    },
+    onError: (err) => {
+      console.error("Error fetching incidents:", err);
+      if (onError) onError(err);
+    },
   });
 };
 
 // Create a new incidents
-export const useCreateIncidents = () => {
+export const useCreateIncidents = (callbacks = {}) => {
   const queryClient = useQueryClient();
+  const { onError, onSuccess } = callbacks;
 
   return useMutation({
     mutationFn: createIncident,
@@ -32,36 +41,53 @@ export const useCreateIncidents = () => {
         newIncident,
         ...oldIncident,
       ]);
+      if (onSuccess) onSuccess(newIncident);
+    },
+    onError: (err) => {
+      console.error("Error creating incident:", err);
+      if (onError) onError(err);
     },
   });
 };
 
 // Update an existing incidents
-export const useUpdateIncidents = () => {
+export const useUpdateIncidents = (callbacks = {}) => {
   const queryClient = useQueryClient();
+  const { onError, onSuccess } = callbacks;
 
   return useMutation({
     mutationFn: ({ id, data }) => updateIncident(id, data),
-    onSuccess: (updatedIncidents) => {
+    onSuccess: (updatedIncident) => {
       queryClient.setQueryData(["incidents"], (oldIncidents = []) =>
-        oldIncidents.map((incidents) =>
-          incidents.id === updatedIncidents.id ? updatedIncidents : incidents,
+        oldIncidents.map((incident) =>
+          incident.id === updatedIncident.id ? updatedIncident : incident,
         ),
       );
+      if (onSuccess) onSuccess(updatedIncident);
+    },
+    onError: (err) => {
+      console.error("Error updating incident:", err);
+      if (onError) onError(err);
     },
   });
 };
 
 // Delete an incidents
-export const useDeleteIncidents = () => {
+export const useDeleteIncidents = (callbacks = {}) => {
   const queryClient = useQueryClient();
+  const { onError, onSuccess } = callbacks;
 
   return useMutation({
     mutationFn: (id) => deleteIncident(id),
-    onSuccess: (_, id) => {
+    onError: (err) => {
+      if (onError) onError(err);
+    },
+    onSuccess: (data, id) => {
       queryClient.setQueryData(["incidents"], (oldIncidents = []) =>
-        oldIncidents.filter((incidents) => incidents.id !== id),
+        oldIncidents.filter((incident) => incident.id !== id),
       );
+
+      if (onSuccess) onSuccess(data, id);
     },
   });
 };
