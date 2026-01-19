@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Pageing from "../UI/Pageing";
 import styles from "./GenericTable.module.scss";
 
@@ -7,71 +7,109 @@ export default function GenericTable({
   columns,
   renderActions,
   itemsPerPage = 10,
+  filter = "All",
+  filterField,
+  emptyMessage = "No data available",
 }) {
   const [page, setPage] = useState(1);
-  console.log("data", data);
 
-  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const filteredData = useMemo(() => {
+    if (filter === "All") return data;
+    return data.filter((item) => item[filterField] === filter);
+  }, [data, filter, filterField]);
 
   const currentData = useMemo(() => {
     const start = (page - 1) * itemsPerPage;
-    return data.slice(start, start + itemsPerPage);
-  }, [data, page, itemsPerPage]);
+    return filteredData.slice(start, start + itemsPerPage);
+  }, [filteredData, page, itemsPerPage]);
+
+  if (filteredData.length === 0) {
+    return <p className={styles.emptyState}>{emptyMessage}</p>;
+  }
+
+  useEffect(() => {
+    setPage(1);
+  }, [filter]);
 
   return (
     <div className={styles.tableWraper}>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            {columns.map((col) => (
-              <th key={col.key}>{col.label}</th>
-            ))}
-            {renderActions && <th>Actions</th>}
-          </tr>
-        </thead>
-        <tbody>
-          {currentData.map((item) => (
-            <tr key={item.id}>
-              {columns.map((col) => {
-                let content = item[col.key];
+      {/* Header */}
+      <div className={`${styles.row} ${styles.headerRow}`}>
+        {columns.map((col) => (
+          <div
+            key={col.key}
+            className={`${styles.cell} ${
+              col.key === "description" ? styles.descriptionCell : ""
+            }`}
+            style={{
+              flex:
+                col.key === "description"
+                  ? "1 1 auto"
+                  : col.flex || "0 0 230px",
+            }}
+          >
+            {col.label}
+          </div>
+        ))}
+        {renderActions && (
+          <div className={styles.cell} style={{ flex: "0 0 120px" }}>
+            Actions
+          </div>
+        )}
+      </div>
 
-                if (col.render) {
-                  content = col.render(item[col.key], item);
-                } else if (col.key === "description") {
-                  content = <div className={styles.description}>{content}</div>;
-                } else if (col.key === "createDate") {
-                  const date = new Date(item.createDate);
-                  content = (
-                    <div>
-                      {date.toLocaleDateString("en-US", {
-                        weekday: "short",
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                      })}
-                    </div>
-                  );
-                }
+      {/* Rows */}
+      {currentData.map((item) => (
+        <div key={item.id} className={styles.row}>
+          {columns.map((col) => {
+            let content = item[col.key];
 
-                return <td key={col.key}>{content}</td>;
-              })}
+            if (col.render) content = col.render(item[col.key], item);
+            else if (col.key === "createDate") {
+              const date = new Date(item.createDate);
+              content = (
+                <div>
+                  {date.toLocaleDateString("en-US", {
+                    weekday: "short",
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  })}
+                </div>
+              );
+            }
 
-              {renderActions && (
-                <td>
-                  <div className={styles.tableActions}>
-                    {renderActions(item)}
-                  </div>
-                </td>
-              )}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+            return (
+              <div
+                key={col.key}
+                className={`${styles.cell} ${
+                  col.key === "description" ? styles.descriptionCell : ""
+                }`}
+              >
+                {col.key === "description" ? (
+                  <div className={styles.description}>{content}</div>
+                ) : (
+                  content
+                )}
+              </div>
+            );
+          })}
 
-      {totalPages > 1 && (
+          {renderActions && (
+            <div
+              className={`${styles.cell} ${styles.tableActions}`}
+              style={{ flex: "0 0 120px" }}
+            >
+              {renderActions(item)}
+            </div>
+          )}
+        </div>
+      ))}
+
+      {filteredData.length > itemsPerPage && (
         <Pageing
           page={page}
-          totalPages={totalPages}
+          totalPages={Math.ceil(filteredData.length / itemsPerPage)}
           setPage={setPage}
           className={styles.paging}
         />

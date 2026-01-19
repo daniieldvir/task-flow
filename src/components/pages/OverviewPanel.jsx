@@ -77,12 +77,12 @@ export default function OverviewPanel() {
       total: incidents.length,
       progress: [
         {
-          value: countBy(incidents, "severity", "Critical"),
+          value: countBy(incidents, "priority", "Critical"),
           tooltip: "Critical incidents",
           color: "red",
         },
         {
-          value: countBy(incidents, "severity", "Warning"),
+          value: countBy(incidents, "priority", "Warning"),
           tooltip: "Warning incidents",
           color: "orange",
         },

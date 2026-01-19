@@ -24,7 +24,6 @@ export default function IncidentsPanel() {
   const { data: incidents = [], isLoading, error } = useIncidents();
   const { isAuthenticated } = useAuth();
 
-  console.log("incidents", incidents);
   const { filter } = useFilter();
   const { loginUser } = useAuth();
   const snackbarRef = useRef();
@@ -113,6 +112,8 @@ export default function IncidentsPanel() {
 
       <GenericTable
         data={incidents}
+        filter={filter}
+        filterField="priority"
         columns={[
           { key: "title", label: "Title" },
           { key: "description", label: "Description" },
