@@ -23,13 +23,13 @@ export default function GenericTable({
     return filteredData.slice(start, start + itemsPerPage);
   }, [filteredData, page, itemsPerPage]);
 
-  if (filteredData.length === 0) {
-    return <p className={styles.emptyState}>{emptyMessage}</p>;
-  }
-
   useEffect(() => {
     setPage(1);
   }, [filter]);
+
+  if (filteredData.length === 0) {
+    return <p className={styles.emptyState}>{emptyMessage}</p>;
+  }
 
   return (
     <div className={styles.tableWraper}>
@@ -41,12 +41,7 @@ export default function GenericTable({
             className={`${styles.cell} ${
               col.key === "description" ? styles.descriptionCell : ""
             }`}
-            style={{
-              flex:
-                col.key === "description"
-                  ? "1 1 auto"
-                  : col.flex || "0 0 230px",
-            }}
+          
           >
             {col.label}
           </div>
@@ -117,3 +112,4 @@ export default function GenericTable({
     </div>
   );
 }
+

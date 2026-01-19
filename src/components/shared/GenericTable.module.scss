@@ -9,7 +9,7 @@
     display: flex;
     border-bottom: 1px solid var(--border-color-subtle);
     min-height: 54px;
-    align-items: center;
+    align-items: stretch; // ← שורת השינוי החשובה
     transition: background 0.2s;
 
     &:hover {
@@ -28,6 +28,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
     flex: 0 0 150px;
+    display: flex;
+    align-items: center; // ← מיישר תוכן בתוך התא
 
     &:first-child {
       flex: 0 0 230px;

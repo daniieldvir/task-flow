@@ -98,7 +98,7 @@ export default function IncidentsPanel() {
   return (
     <>
       <header className={styles.header}>
-        <h2>Incident</h2>
+        <h2>Incidents</h2>
         <ActionButton
           onClick={handleAddClicked}
           label="Add"
