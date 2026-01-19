@@ -12,7 +12,11 @@ import DataPanel from "../shared/DataPanel";
 import AppSnackbar from "../shared/Snackbar";
 import DeleteModal from "../UI/Modals/DeleteModal";
 import Modal from "../UI/Modals/Modal";
-import { deleteMessages, updateMessages } from "../utils/SnackbarMessage";
+import {
+  creatMessages,
+  deleteMessages,
+  updateMessages,
+} from "../utils/SnackbarMessage";
 
 export default function TasksPanel() {
   const snackbarRef = useRef();
@@ -25,26 +29,19 @@ export default function TasksPanel() {
     task: null,
   });
 
-  const createTaskMutation = useCreateTask();
-  const updateTaskMutation = useUpdateTask({
+  const withSnackbar = (messages) => ({
     onError: (err) => {
-      snackbarRef.current.show(err?.message || updateMessages.error("Task"));
+      snackbarRef.current.show(err?.message || messages.error("Task"));
     },
     onSuccess: () => {
-      snackbarRef.current.show(updateMessages.success("Task"));
-      setModal({ type: null, task: null });
+      snackbarRef.current.show(messages.success("Task"));
+      closeModal();
     },
   });
 
-  const deleteTaskMutation = useDeleteTask({
-    onError: (err) => {
-      snackbarRef.current.show(err?.message || deleteMessages.error("Task"));
-    },
-    onSuccess: () => {
-      snackbarRef.current.show(deleteMessages.success("Task"));
-      setModal({ type: null, task: null });
-    },
-  });
+  const createTaskMutation = useCreateTask(withSnackbar(creatMessages));
+  const updateTaskMutation = useUpdateTask(withSnackbar(updateMessages));
+  const deleteTaskMutation = useDeleteTask(withSnackbar(deleteMessages));
 
   const handleAddClicked = async () => {
     setModal({ type: "add", task: null });
@@ -74,7 +71,7 @@ export default function TasksPanel() {
       });
     }
 
-    handleCancel();
+    closeModal();
   };
 
   const handleDelete = async () => {
@@ -83,7 +80,7 @@ export default function TasksPanel() {
     }
   };
 
-  const handleCancel = async () => {
+  const closeModal = async () => {
     setModal({ type: null, task: null });
   };
 
@@ -108,20 +105,20 @@ export default function TasksPanel() {
       <DeleteModal
         isOpen={modal.type === "delete"}
         entity="Alert"
-        onClose={handleCancel}
+        onClose={closeModal}
         onConfirm={handleDelete}
       />
 
       <Modal
         isOpen={modal.type === "add" || modal.type === "edit"}
         title={modal.type === "edit" ? "edit task" : "create new task"}
-        onClose={handleCancel}
+        onClose={closeModal}
       >
         <AddForm
           initialData={modal.task || {}}
           submitLabel="Create Task"
           onSubmit={handleCreate}
-          onCancel={handleCancel}
+          onCancel={closeModal}
           fields={[
             {
               name: "name",

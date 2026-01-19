@@ -28,8 +28,7 @@ export default function AddForm({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
-
+ 
     const hasEmptyField = fields.some((field) => !formData[field.name]);
 
     if (hasEmptyField) {

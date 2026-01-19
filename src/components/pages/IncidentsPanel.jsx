@@ -17,7 +17,7 @@ import ButtonSVG from "../UI/Buttons/ButtonSVG";
 import DeleteModal from "../UI/Modals/DeleteModal";
 import Modal from "../UI/Modals/Modal";
 import Status from "../UI/Status";
-import { deleteMessages } from "../utils/SnackbarMessage";
+import { creatMessages } from "../utils/SnackbarMessage";
 import styles from "./IncidentsPanel.module.scss";
 
 export default function IncidentsPanel() {
@@ -33,19 +33,25 @@ export default function IncidentsPanel() {
     incident: null,
   });
 
-  const createIncidentsMutation = useCreateIncidents();
-  const updateIncidentsMutation = useUpdateIncidents();
-  const deleteIncidentsMutation = useDeleteIncidents({
+  const withSnackbar = (messages) => ({
     onError: (err) => {
-      snackbarRef.current.show(
-        err?.message || deleteMessages.error("Incident"),
-      );
+      snackbarRef.current.show(err?.message || messages.error("Incident"));
     },
     onSuccess: () => {
-      snackbarRef.current.show(deleteMessages.success("Incident"));
-      setModal({ type: null, incident: null });
+      snackbarRef.current.show(messages.success("Incident"));
+      closeModal();
     },
   });
+
+  const createIncidentsMutation = useCreateIncidents(
+    withSnackbar(creatMessages),
+  );
+  const updateIncidentsMutation = useUpdateIncidents(
+    withSnackbar(creatMessages),
+  );
+  const deleteIncidentsMutation = useDeleteIncidents(
+    withSnackbar(creatMessages),
+  );
 
   const handleAddClicked = async () => {
     setModal({ type: "add", incident: null });
@@ -73,7 +79,7 @@ export default function IncidentsPanel() {
         data: incidentData,
       });
     }
-    handleCancel();
+    closeModal();
   };
 
   const handleDelete = () => {
@@ -82,7 +88,7 @@ export default function IncidentsPanel() {
     }
   };
 
-  const handleCancel = async () => {
+  const closeModal = async () => {
     setModal({ type: null, incident: null });
   };
 
@@ -135,19 +141,19 @@ export default function IncidentsPanel() {
       <DeleteModal
         isOpen={modal.type === "delete"}
         entity="incident"
-        onClose={handleCancel}
+        onClose={closeModal}
         onConfirm={handleDelete}
       />
 
       <Modal
         isOpen={modal.type === "add" || modal.type === "edit"}
         title={modal.type === "edit" ? "edit incident" : "create new incident"}
-        onClose={handleCancel}
+        onClose={closeModal}
       >
         <AddForm
           initialData={modal.incident || {}}
           onSubmit={handleCreate}
-          onCancel={handleCancel}
+          onCancel={closeModal}
           fields={[
             {
               name: "title",

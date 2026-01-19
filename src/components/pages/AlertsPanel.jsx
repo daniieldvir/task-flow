@@ -12,7 +12,7 @@ import DataPanel from "../shared/DataPanel";
 import AppSnackbar from "../shared/Snackbar";
 import DeleteModal from "../UI/Modals/DeleteModal";
 import Modal from "../UI/Modals/Modal";
-import { deleteMessages } from "../utils/SnackbarMessage";
+import { creatMessages } from "../utils/SnackbarMessage";
 
 export default function AlertsPanel() {
   const snackbarRef = useRef();
@@ -25,17 +25,19 @@ export default function AlertsPanel() {
     alert: null,
   });
 
-  const createAlertsMutation = useCreateAlert();
-  const updateAlertMutation = useUpdateAlert();
-  const deleteAlertMutation = useDeleteAlert({
+  const withSnackbar = (messages) => ({
     onError: (err) => {
-      snackbarRef.current.show(err?.message || deleteMessages.error("Alert"));
+      snackbarRef.current.show(err?.message || messages.error("Alert"));
     },
     onSuccess: () => {
-      snackbarRef.current.show(deleteMessages.success("Alert"));
-      setModal({ type: null, alert: null });
+      snackbarRef.current.show(messages.success("Alert"));
+      closeModal();
     },
   });
+
+  const createAlertsMutation = useCreateAlert(withSnackbar(creatMessages));
+  const updateAlertMutation = useUpdateAlert(withSnackbar(creatMessages));
+  const deleteAlertMutation = useDeleteAlert(withSnackbar(creatMessages));
 
   const handleAddClicked = async () => {
     setModal({ type: "add", alert: null });
@@ -63,7 +65,7 @@ export default function AlertsPanel() {
         data: alertData,
       });
     }
-    handleCancel();
+    closeModal();
   };
 
   const handleDelete = async () => {
@@ -72,7 +74,7 @@ export default function AlertsPanel() {
     }
   };
 
-  const handleCancel = async () => {
+  const closeModal = async () => {
     setModal({ type: null, alert: null });
   };
 
@@ -97,21 +99,21 @@ export default function AlertsPanel() {
       <DeleteModal
         isOpen={modal.type === "delete"}
         entity="Alert"
-        onClose={handleCancel}
+        onClose={closeModal}
         onConfirm={handleDelete}
       />
 
       <Modal
         isOpen={modal.type === "add" || modal.type === "edit"}
         title={modal.type === "edit" ? "edit alert" : "create new alert"}
-        onClose={handleCancel}
+        onClose={closeModal}
       >
         <AddForm
           initialData={modal.alert || {}}
           title="Create Alert"
           submitLabel="Create Alert"
           onSubmit={handleCreate}
-          onCancel={handleCancel}
+          onCancel={closeModal}
           fields={[
             {
               name: "title",
