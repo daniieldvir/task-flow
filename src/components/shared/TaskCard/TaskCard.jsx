@@ -2,13 +2,16 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import EditIcon from "@mui/icons-material/Edit";
 import PersonIcon from "@mui/icons-material/Person";
 import { memo } from "react";
+import { useAuth } from "../../../hooks/authContext";
+import ButtonSVG from "../../UI/Buttons/ButtonSVG";
 import { getAvatarColor } from "../../utils/ColorUtils";
 import styles from "./TaskCard.module.scss";
 
 const TaskCard = ({ task, onEdit }) => {
+  const { isAuthenticated } = useAuth();
   const priority = task.priority || "Medium";
   const priorityClass = `priority${priority}`;
-  
+
   const formatDate = (dateStr) => {
     if (!dateStr) return "";
     const date = new Date(dateStr);
@@ -18,20 +21,20 @@ const TaskCard = ({ task, onEdit }) => {
   const isOverdue = task.dueDate && new Date(task.dueDate) < new Date();
 
   return (
-    <div className={styles.taskCard} onClick={() => onEdit(task)}>
+    <div className={styles.taskCard}>
       <div className={styles.cardHeader}>
         <span className={`${styles.priorityBadge} ${styles[priorityClass]}`}>
           {priority}
         </span>
-        <div 
-          className={styles.moreButton} 
-          onClick={(e) => { 
-            e.stopPropagation(); 
-            onEdit(task); 
+        <ButtonSVG
+         disabled={!isAuthenticated}
+         className={styles.moreButton}
+          icon={<EditIcon fontSize="small" />}
+          onClick={(e) => {
+            e.stopPropagation();
+            onEdit(task);
           }}
-        >
-          <EditIcon fontSize="small" />
-        </div>
+        />
       </div>
 
       <div className={styles.tags}>
@@ -45,8 +48,8 @@ const TaskCard = ({ task, onEdit }) => {
 
       <div className={styles.cardFooter}>
         <div className={styles.metaInfo}>
-          <div 
-            className={styles.avatar} 
+          <div
+            className={styles.avatar}
             style={{ background: getAvatarColor(task.author || 'User') }}
             title={task.author || "Unknown"}
           >
