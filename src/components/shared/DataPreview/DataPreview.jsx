@@ -50,7 +50,7 @@ function DataPreview({
       <div className={styles.details}>
         <div className={styles.creat}>
           <p>{formattedDate}</p>
-          <p> {source}</p>
+          <p> Created by: <strong>{source}</strong></p>
         </div>
         <Status statusKey={statusKey} />
       </div>

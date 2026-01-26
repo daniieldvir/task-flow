@@ -17,6 +17,12 @@ export const TASK_STATUSES = [
   { label: "Resolved", value: "Resolved" },
 ];
 
+export const TASK_PRIORITIES = [
+  { label: "Low", value: "Low" },
+  { label: "Medium", value: "Medium" },
+  { label: "High", value: "High" },
+];
+
 export const ALERT_SEVERITIES = [
   { label: "Critical", value: "Critical" },
   { label: "Info", value: "Info" },
@@ -30,8 +36,10 @@ export const INCIDENT_PRIORITIES = [
   { label: "Critical", value: "Critical" },
 ];
 
+
 // Default Values
 export const DEFAULT_TASK_STATUS = "Open";
+export const DEFAULT_TASK_PRIORITY = "Medium";
 export const DEFAULT_ALERT_SEVERITY = "Info";
 export const DEFAULT_INCIDENT_PRIORITY = "Low";
 

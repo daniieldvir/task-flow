@@ -3,4 +3,12 @@
   flex-direction: row;
   justify-content: space-between;
   padding-bottom: 15px;
+  
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 }
