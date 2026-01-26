@@ -26,15 +26,16 @@ const TaskCard = ({ task, onEdit }) => {
         <span className={`${styles.priorityBadge} ${styles[priorityClass]}`}>
           {priority}
         </span>
-        <ButtonSVG
-         disabled={!isAuthenticated}
-         className={styles.moreButton}
-          icon={<EditIcon fontSize="small" />}
-          onClick={(e) => {
-            e.stopPropagation();
-            onEdit(task);
-          }}
-        />
+        {isAuthenticated && (
+          <ButtonSVG
+            className={styles.moreButton}
+            icon={<EditIcon fontSize="small" />}
+            onClick={(e) => {
+              e.stopPropagation();
+              onEdit(task);
+            }}
+          />
+        )}
       </div>
 
       <div className={styles.tags}>
