@@ -1,6 +1,6 @@
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import SunnyIcon from "@mui/icons-material/Sunny";
-import { useTheme } from "../../hooks/themeContext";
+import { useTheme } from "../../../hooks/themeContext";
 import styles from "./ThemeToggle.module.scss";
 
 export default function ThemeToggle() {

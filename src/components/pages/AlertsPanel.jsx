@@ -1,4 +1,11 @@
-import { useRef, useState } from "react";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import { useCallback, useMemo, useRef, useState } from "react";
+import {
+  ALERT_SEVERITIES,
+  DEFAULT_ALERT_SEVERITY,
+  DEFAULT_ITEMS_PER_PAGE,
+} from "../../constants/config.js";
 import {
   useAlerts,
   useCreateAlert,
@@ -7,98 +14,184 @@ import {
 } from "../../hooks/alerts";
 import { useAuth } from "../../hooks/authContext";
 import { useFilter } from "../../hooks/useFilter";
-import AddForm from "../shared/AddForm";
-import DataPanel from "../shared/DataPanel";
-import AppSnackbar from "../shared/Snackbar";
+import AddForm from "../shared/AddForm/AddForm.jsx";
+import Error from "../shared/Errors/Error.jsx";
+import LoadingSkeleton from "../shared/Feedback/LoadingSkeleton.jsx";
+import AppSnackbar from "../shared/Feedback/Snackbar.jsx";
+import GenericTable from "../shared/GenericTable/GenericTable.jsx";
+import ActionButton from "../UI/Buttons/ActionButton";
+import ButtonSVG from "../UI/Buttons/ButtonSVG";
+import Status from "../UI/DataDisplay/Status.jsx";
 import DeleteModal from "../UI/Modals/DeleteModal";
 import Modal from "../UI/Modals/Modal";
 import { creatMessages } from "../utils/SnackbarMessage";
+import styles from "./AlertsPanel.module.scss";
+
 
 export default function AlertsPanel() {
   const snackbarRef = useRef();
   const { data: alerts = [], isLoading, error } = useAlerts();
   const { filter } = useFilter();
   const { loginUser } = useAuth();
+  const { isAuthenticated } = useAuth();
 
   const [modal, setModal] = useState({
     type: null, // 'add' | 'edit' | 'delete'
     alert: null,
   });
 
-  const withSnackbar = (messages) => ({
-    onError: (err) => {
-      snackbarRef.current.show(err?.message || messages.error("Alert"));
-    },
-    onSuccess: () => {
-      snackbarRef.current.show(messages.success("Alert"));
-      closeModal();
-    },
-  });
+  const closeModal = useCallback(() => {
+    setModal({ type: null, alert: null });
+  }, []);
+
+  const withSnackbar = useCallback(
+    (messages) => ({
+      onError: (err) => {
+        snackbarRef.current?.show(err?.message || messages.error("Alert"));
+      },
+      onSuccess: () => {
+        snackbarRef.current?.show(messages.success("Alert"));
+        closeModal();
+      },
+    }),
+    [closeModal]
+  );
 
   const createAlertsMutation = useCreateAlert(withSnackbar(creatMessages));
   const updateAlertMutation = useUpdateAlert(withSnackbar(creatMessages));
   const deleteAlertMutation = useDeleteAlert(withSnackbar(creatMessages));
 
-  const handleAddClicked = async () => {
+  const handleAddClicked = useCallback(() => {
     setModal({ type: "add", alert: null });
-  };
+  }, []);
 
-  const handleEditClicked = async (alert) => {
+  const handleEditClicked = useCallback((alert) => {
     setModal({ type: "edit", alert });
-  };
+  }, []);
 
-  const handleDeleteClicked = async (alartId) => {
-    setModal({ type: "delete", alert: alartId });
-  };
+  const handleDeleteClicked = useCallback((alertId) => {
+    setModal({ type: "delete", alert: alertId });
+  }, []);
 
-  const handleCreate = async (alertData) => {
-    if (modal.type === "add") {
-      createAlertsMutation.mutate({
-        ...alertData,
-        source: loginUser.username,
-        createDate: new Date(),
-      });
-    }
-    if (modal.type === "edit") {
-      updateAlertMutation.mutate({
-        id: modal.alert.id,
-        data: alertData,
-      });
-    }
-    closeModal();
-  };
+  const handleCreate = useCallback(
+    (alertData) => {
+      if (modal.type === "add") {
+        createAlertsMutation.mutate({
+          ...alertData,
+          source: loginUser?.username,
+          createDate: new Date(),
+        });
+      }
+      if (modal.type === "edit") {
+        updateAlertMutation.mutate({
+          id: modal.alert?.id,
+          data: alertData,
+        });
+      }
+      closeModal();
+    },
+    [
+      modal.type,
+      modal.alert,
+      loginUser?.username,
+      createAlertsMutation,
+      updateAlertMutation,
+      closeModal,
+    ]
+  );
 
-  const handleDelete = async () => {
+  const handleDelete = useCallback(() => {
     if (modal.type === "delete" && modal.alert) {
       deleteAlertMutation.mutate(modal.alert);
     }
-  };
+  }, [modal.type, modal.alert, deleteAlertMutation]);
 
-  const closeModal = async () => {
-    setModal({ type: null, alert: null });
-  };
+  const columns = useMemo(
+    () => [
+      { key: "title", label: "Title" },
+      { key: "description", label: "Description" },
+      {
+        key: "severity",
+        label: "severity",
+        render: (val) => <Status statusKey={val} />,
+      },
+      { key: "createDate", label: "Create Date" },
+      { key: "source", label: "Source" },
+    ],
+    []
+  );
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  const formFields = useMemo(
+    () => [
+      {
+        name: "title",
+        label: "Alert Name",
+        type: "text",
+        required: true,
+        placeholder: "Enter alert name",
+      },
+      {
+        name: "severity",
+        label: "Severity",
+        type: "select",
+        defaultValue: DEFAULT_ALERT_SEVERITY,
+        options: ALERT_SEVERITIES,
+      },
+      {
+        name: "description",
+        label: "Description",
+        type: "textarea",
+        placeholder: "Enter alert description",
+      },
+    ],
+    []
+  );
 
+  const renderActions = useCallback(
+    (alert) => (
+      <>
+        <ButtonSVG
+          icon={<EditIcon />}
+          onClick={() => handleEditClicked(alert)}
+          disabled={!isAuthenticated}
+        />
+        <ButtonSVG
+          icon={<DeleteIcon />}
+          onClick={() => handleDeleteClicked(alert.id)}
+          disabled={!isAuthenticated}
+        />
+      </>
+    ),
+    [handleEditClicked, handleDeleteClicked, isAuthenticated]
+  );
+
+  if (isLoading) return <LoadingSkeleton type="table" rows={10} />;
+  if (error) return <Error message={error.message} />;
+
+ 
   return (
     <>
-      <DataPanel
+      <header className={styles.header}>
+        <h2>Alerts</h2>
+        <ActionButton
+          onClick={handleAddClicked}
+          label="Add"
+          disabled={!isAuthenticated}
+        />
+      </header>
+
+      <GenericTable
         data={alerts}
         filter={filter}
         filterField="severity"
-        titleField="title"
-        sourceField="source"
-        emptyMessage="No Alerts"
-        panelTitle="Alerts"
-        onAdd={handleAddClicked}
-        onEdit={(alert) => handleEditClicked(alert)}
-        onDelete={(alert) => handleDeleteClicked(alert)}
+        columns={columns}
+        renderActions={renderActions}
+        itemsPerPage={DEFAULT_ITEMS_PER_PAGE}
       />
 
       <DeleteModal
         isOpen={modal.type === "delete"}
-        entity="Alert"
+        entity="alert"
         onClose={closeModal}
         onConfirm={handleDelete}
       />
@@ -110,37 +203,9 @@ export default function AlertsPanel() {
       >
         <AddForm
           initialData={modal.alert || {}}
-          title="Create Alert"
-          submitLabel="Create Alert"
           onSubmit={handleCreate}
           onCancel={closeModal}
-          fields={[
-            {
-              name: "title",
-              label: "Alert Name",
-              type: "text",
-              required: true,
-              placeholder: "Enter alert name",
-            },
-            {
-              name: "severity",
-              label: "Severity",
-              type: "select",
-              defaultValue: "Info",
-              options: [
-                { label: "Critical", value: "Critical" },
-                { label: "Info", value: "Info" },
-                { label: "Warning", value: "Warning" },
-                { label: "Resolved", value: "Resolved" },
-              ],
-            },
-            {
-              name: "description",
-              label: "Description",
-              type: "textarea",
-              placeholder: "Enter alert description",
-            },
-          ]}
+          fields={formFields}
         />
       </Modal>
       <AppSnackbar ref={snackbarRef} />

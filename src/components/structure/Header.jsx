@@ -1,5 +1,5 @@
-import ThemeToggle from "../UI/ThemeToggle";
-import UserAvater from "../UI/UserAvater";
+import ThemeToggle from "../UI/Buttons/ThemeToggle.jsx";
+import UserAvater from "../UI/DataDisplay/UserAvatar.jsx";
 import styles from "./Header.module.scss";
 
 export default function Header() {

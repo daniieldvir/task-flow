@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import ActionButton from "../Buttons/ActionButton";
-import Input from "../Input";
+import Input from "../Inputs/Input.jsx";
 import styles from "./LoginModal.module.scss";
 
 export default function LoginModal({ isOpen, onClose, onConfirm, error }) {

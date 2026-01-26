@@ -24,24 +24,7 @@
 
     .actions {
       display: flex;
-      gap: 10px;
-
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(4px);
-
-      transition:
-        opacity 0.2s ease,
-        transform 0.2s ease,
-        visibility 0.2s ease;
-    }
-  }
-
-  &:hover {
-    .actions {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
+      gap: 5px;
     }
   }
 

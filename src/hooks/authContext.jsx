@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { STORAGE_KEYS } from "../constants/config.js";
 
 const AuthContext = createContext({
   loginUser: null,
@@ -8,7 +9,29 @@ const AuthContext = createContext({
 });
 
 const AuthProvider = ({ children }) => {
-  const [loginUser, setLoginUser] = useState(null);
+  // Load user from localStorage on mount
+  const [loginUser, setLoginUser] = useState(() => {
+    try {
+      const storedUser = localStorage.getItem(STORAGE_KEYS.AUTH_USER);
+      return storedUser ? JSON.parse(storedUser) : null;
+    } catch (error) {
+      console.error("Error loading user from localStorage:", error);
+      return null;
+    }
+  });
+
+  useEffect(() => {
+    // Persist user to localStorage whenever it changes
+    if (loginUser) {
+      try {
+        localStorage.setItem(STORAGE_KEYS.AUTH_USER, JSON.stringify(loginUser));
+      } catch (error) {
+        console.error("Error saving user to localStorage:", error);
+      }
+    } else {
+      localStorage.removeItem(STORAGE_KEYS.AUTH_USER);
+    }
+  }, [loginUser]);
 
   const login = (user) => {
     setLoginUser(user);

@@ -1,6 +1,7 @@
+import { memo } from "react";
 import styles from "./ButtonSVG.module.scss";
 
-export default function ButtonSVG({ className, icon, onClick, disabled }) {
+function ButtonSVG({ className, icon, onClick, disabled }) {
   return (
     <button
       className={`${styles.buttonSVG} ${className} ${disabled ? "disabled" : ""}`}
@@ -11,3 +12,5 @@ export default function ButtonSVG({ className, icon, onClick, disabled }) {
     </button>
   );
 }
+
+export default memo(ButtonSVG);

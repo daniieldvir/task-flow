@@ -7,12 +7,20 @@ import IncidentsPanel from "./components/pages/IncidentsPanel.jsx";
 import OverviewPanel from "./components/pages/OverviewPanel.jsx";
 import TasksPanel from "./components/pages/TasksPanel.jsx";
 import RootLayout from "./components/routes/RootLayout.jsx";
+import ErrorBoundary from "./components/shared/Errors/ErrorBoundary.jsx";
 import { AuthProvider } from "./hooks/authContext.jsx";
 import { ThemeProvider } from "./hooks/themeContext.jsx";
 import { FilterProvider } from "./hooks/useFilter.jsx";
 import "./index.scss";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const router = createHashRouter([
   {
@@ -31,13 +39,15 @@ const router = createHashRouter([
 ]);
 
 createRoot(document.getElementById("root")).render(
-  <QueryClientProvider client={queryClient}>
-    <ThemeProvider>
-      <AuthProvider>
-        <FilterProvider>
-          <RouterProvider router={router} />
-        </FilterProvider>
-      </AuthProvider>
-    </ThemeProvider>
-  </QueryClientProvider>,
+  <ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+        <AuthProvider>
+          <FilterProvider>
+            <RouterProvider router={router} />
+          </FilterProvider>
+        </AuthProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
+  </ErrorBoundary>,
 );

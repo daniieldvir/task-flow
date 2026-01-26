@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import Pageing from "../UI/Pageing";
+import Pageing from "../../UI/Navigation/Pagination";
 import styles from "./GenericTable.module.scss";
 
 export default function GenericTable({

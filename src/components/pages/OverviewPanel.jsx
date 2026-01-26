@@ -1,7 +1,6 @@
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
-
 import {
   ArcElement,
   BarElement,
@@ -12,12 +11,12 @@ import {
   Title,
   Tooltip,
 } from "chart.js";
-
+import { useMemo } from "react";
 import { useOverviewData } from "../../hooks/useOverviewData";
 import PieChart from "../charts/PieChart";
 import ProgressBar from "../charts/ProgressBar";
-import Card from "../UI/Cards/Card";
-import StatCard from "../UI/Cards/StatCard";
+import Card from "../UI/DataDisplay/Card.jsx";
+import StatCard from "../UI/DataDisplay/StatCard.jsx";
 import styles from "./OverviewPanel.module.scss";
 
 ChartJS.register(
@@ -36,59 +35,62 @@ export default function OverviewPanel() {
   const countBy = (items, key, value) =>
     items.filter((item) => item[key] === value).length;
 
-  const cards = [
-    {
-      icon: <AssignmentIcon />,
-      label: "Tasks",
-      total: tasks.length,
-      progress: [
-        {
-          value: countBy(tasks, "status", "Open"),
-          tooltip: "Open tasks",
-          color: "rgb(57, 159, 254)",
-        },
-        {
-          value: countBy(tasks, "status", "Completed"),
-          tooltip: "Completed tasks",
-          color: "green",
-        },
-      ],
-    },
-    {
-      icon: <NotificationsIcon />,
-      label: "Alerts",
-      total: alerts.length,
-      progress: [
-        {
-          value: countBy(alerts, "severity", "Critical"),
-          tooltip: "Critical alerts",
-          color: "red",
-        },
-        {
-          value: countBy(alerts, "severity", "Warning"),
-          tooltip: "Warning alerts",
-          color: "orange",
-        },
-      ],
-    },
-    {
-      icon: <ReportProblemIcon />,
-      label: "Incidents",
-      total: incidents.length,
-      progress: [
-        {
-          value: countBy(incidents, "priority", "Critical"),
-          tooltip: "Critical incidents",
-          color: "red",
-        },
-        {
-          value: countBy(incidents, "priority", "Warning"),
-          tooltip: "Warning incidents",
-          color: "orange",
-        },
-      ],
-    },
-  ];
+  const cards = useMemo(
+    () => [
+      {
+        icon: <AssignmentIcon />,
+        label: "Tasks",
+        total: tasks.length,
+        progress: [
+          {
+            value: countBy(tasks, "status", "Open"),
+            tooltip: "Open tasks",
+            color: "rgb(57, 159, 254)",
+          },
+          {
+            value: countBy(tasks, "status", "Completed"),
+            tooltip: "Completed tasks",
+            color: "green",
+          },
+        ],
+      },
+      {
+        icon: <NotificationsIcon />,
+        label: "Alerts",
+        total: alerts.length,
+        progress: [
+          {
+            value: countBy(alerts, "severity", "Critical"),
+            tooltip: "Critical alerts",
+            color: "red",
+          },
+          {
+            value: countBy(alerts, "severity", "Warning"),
+            tooltip: "Warning alerts",
+            color: "orange",
+          },
+        ],
+      },
+      {
+        icon: <ReportProblemIcon />,
+        label: "Incidents",
+        total: incidents.length,
+        progress: [
+          {
+            value: countBy(incidents, "priority", "Critical"),
+            tooltip: "Critical incidents",
+            color: "red",
+          },
+          {
+            value: countBy(incidents, "priority", "Warning"),
+            tooltip: "Warning incidents",
+            color: "orange",
+          },
+        ],
+      },
+    ],
+    [tasks, alerts, incidents]
+  );
 
   return (
     <div className={styles.overviewPanel}>

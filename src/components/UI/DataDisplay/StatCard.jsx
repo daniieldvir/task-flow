@@ -1,6 +1,7 @@
+import { memo } from "react";
 import styles from "./StatCard.module.scss";
 
-export default function StatCard({ icon, label, value }) {
+function StatCard({ icon, label, value }) {
   return (
     <div className={styles.statCard}>
       <header className={styles.header}>
@@ -11,3 +12,5 @@ export default function StatCard({ icon, label, value }) {
     </div>
   );
 }
+
+export default memo(StatCard);

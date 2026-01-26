@@ -1,11 +1,12 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { useAuth } from "../../hooks/authContext";
-import ButtonSVG from "../UI/Buttons/ButtonSVG";
-import Status from "../UI/Status";
+import { memo, useMemo } from "react";
+import { useAuth } from "../../../hooks/authContext";
+import ButtonSVG from "../../UI/Buttons/ButtonSVG";
+import Status from "../../UI/DataDisplay/Status.jsx";
 import styles from "./DataPreview.module.scss";
 
-export default function DataPreview({
+function DataPreview({
   props,
   statusKey,
   source,
@@ -15,12 +16,15 @@ export default function DataPreview({
 }) {
   const { isAuthenticated } = useAuth();
 
-  const formattedDate = new Date(props.createDate).toLocaleDateString("en-US", {
-    weekday: "short",
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
+  const formattedDate = useMemo(() => {
+    if (!props?.createDate) return "";
+    return new Date(props.createDate).toLocaleDateString("en-US", {
+      weekday: "short",
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  }, [props?.createDate]);
 
   return (
     <div className={styles.dataPreview}>
@@ -31,11 +35,13 @@ export default function DataPreview({
         </div>
         <div className={styles.actions}>
           <ButtonSVG
-            icon={<EditIcon onClick={onEdit} />}
+            icon={<EditIcon />}
+            onClick={onEdit}
             disabled={!isAuthenticated}
           />
           <ButtonSVG
-            icon={<DeleteIcon onClick={onDelete} />}
+            icon={<DeleteIcon />}
+            onClick={onDelete}
             disabled={!isAuthenticated}
           />
         </div>
@@ -51,3 +57,5 @@ export default function DataPreview({
     </div>
   );
 }
+
+export default memo(DataPreview);

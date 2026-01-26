@@ -1,4 +1,8 @@
-import { useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
+import {
+  DEFAULT_TASK_STATUS,
+  TASK_STATUSES,
+} from "../../constants/config.js";
 import { useAuth } from "../../hooks/authContext";
 import {
   useCreateTask,
@@ -7,9 +11,11 @@ import {
   useUpdateTask,
 } from "../../hooks/tasks";
 import { useFilter } from "../../hooks/useFilter";
-import AddForm from "../shared/AddForm";
-import DataPanel from "../shared/DataPanel";
-import AppSnackbar from "../shared/Snackbar";
+import AddForm from "../shared/AddForm/AddForm.jsx";
+import DataPanel from "../shared/DataPanel/DataPanel.jsx";
+import Error from "../shared/Errors/Error.jsx";
+import LoadingSkeleton from "../shared/Feedback/LoadingSkeleton.jsx";
+import AppSnackbar from "../shared/Feedback/Snackbar.jsx";
 import DeleteModal from "../UI/Modals/DeleteModal";
 import Modal from "../UI/Modals/Modal";
 import {
@@ -29,63 +35,102 @@ export default function TasksPanel() {
     task: null,
   });
 
-  const withSnackbar = (messages) => ({
-    onError: (err) => {
-      snackbarRef.current.show(err?.message || messages.error("Task"));
-    },
-    onSuccess: () => {
-      snackbarRef.current.show(messages.success("Task"));
-      closeModal();
-    },
-  });
+  const closeModal = useCallback(() => {
+    setModal({ type: null, task: null });
+  }, []);
+
+  const withSnackbar = useCallback(
+    (messages) => ({
+      onError: (err) => {
+        snackbarRef.current?.show(err?.message || messages.error("Task"));
+      },
+      onSuccess: () => {
+        snackbarRef.current?.show(messages.success("Task"));
+        closeModal();
+      },
+    }),
+    [closeModal]
+  );
 
   const createTaskMutation = useCreateTask(withSnackbar(creatMessages));
   const updateTaskMutation = useUpdateTask(withSnackbar(updateMessages));
   const deleteTaskMutation = useDeleteTask(withSnackbar(deleteMessages));
 
-  const handleAddClicked = async () => {
+  const handleAddClicked = useCallback(() => {
     setModal({ type: "add", task: null });
-  };
+  }, []);
 
-  const handleEditClicked = async (task) => {
+  const handleEditClicked = useCallback((task) => {
     setModal({ type: "edit", task });
-  };
+  }, []);
 
-  const handleDeleteClicked = async (taskId) => {
+  const handleDeleteClicked = useCallback((taskId) => {
     setModal({ type: "delete", task: taskId });
-  };
+  }, []);
 
-  const handleCreate = (taskData) => {
-    if (modal.type === "add") {
-      createTaskMutation.mutate({
-        ...taskData,
-        author: loginUser.username,
-        createDate: new Date(),
-      });
-    }
+  const handleCreate = useCallback(
+    (taskData) => {
+      if (modal.type === "add") {
+        createTaskMutation.mutate({
+          ...taskData,
+          author: loginUser?.username,
+          createDate: new Date(),
+        });
+      }
 
-    if (modal.type === "edit") {
-      updateTaskMutation.mutate({
-        id: modal.task.id,
-        data: taskData,
-      });
-    }
+      if (modal.type === "edit") {
+        updateTaskMutation.mutate({
+          id: modal.task?.id,
+          data: taskData,
+        });
+      }
 
-    closeModal();
-  };
+      closeModal();
+    },
+    [
+      modal.type,
+      modal.task,
+      loginUser?.username,
+      createTaskMutation,
+      updateTaskMutation,
+      closeModal,
+    ]
+  );
 
-  const handleDelete = async () => {
+  const handleDelete = useCallback(() => {
     if (modal.type === "delete" && modal.task) {
       deleteTaskMutation.mutate(modal.task);
     }
-  };
+  }, [modal.type, modal.task, deleteTaskMutation]);
 
-  const closeModal = async () => {
-    setModal({ type: null, task: null });
-  };
+  const formFields = useMemo(
+    () => [
+      {
+        name: "name",
+        label: "Task Name",
+        type: "text",
+        required: true,
+        placeholder: "Enter task name",
+      },
+      {
+        name: "status",
+        label: "Status",
+        type: "select",
+        defaultValue: DEFAULT_TASK_STATUS,
+        options: TASK_STATUSES,
+      },
+      {
+        name: "description",
+        label: "Description",
+        type: "textarea",
+        placeholder: "Enter task description",
+      },
+    ],
+    []
+  );
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  if (isLoading) return <LoadingSkeleton type="card" count={4} />;
+  if (error) return <Error message={error.message} />;
 
   return (
     <>
@@ -98,8 +143,8 @@ export default function TasksPanel() {
         emptyMessage="No Tasks"
         panelTitle="Tasks"
         onAdd={handleAddClicked}
-        onEdit={(task) => handleEditClicked(task)}
-        onDelete={(task) => handleDeleteClicked(task)}
+        onEdit={handleEditClicked}
+        onDelete={handleDeleteClicked}
       />
 
       <DeleteModal
@@ -119,32 +164,7 @@ export default function TasksPanel() {
           submitLabel="Create Task"
           onSubmit={handleCreate}
           onCancel={closeModal}
-          fields={[
-            {
-              name: "name",
-              label: "Task Name",
-              type: "text",
-              required: true,
-              placeholder: "Enter task name",
-            },
-            {
-              name: "status",
-              label: "Status",
-              type: "select",
-              defaultValue: "Open",
-              options: [
-                { label: "Open", value: "Open" },
-                { label: "In Progress", value: "In Progress" },
-                { label: "Resolved", value: "Resolved" },
-              ],
-            },
-            {
-              name: "description",
-              label: "Description",
-              type: "textarea",
-              placeholder: "Enter task description",
-            },
-          ]}
+          fields={formFields}
         />
       </Modal>
 

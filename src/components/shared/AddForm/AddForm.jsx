@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useAuth } from "../../hooks/authContext";
-import ActionButton from "../UI/Buttons/ActionButton";
-import FilterSelect from "../UI/Filters/FilterSelect";
-import Input from "../UI/Input";
+import { useAuth } from "../../../hooks/authContext";
+import ActionButton from "../../UI/Buttons/ActionButton";
+import FilterSelect from "../../UI/Filters/FilterSelect";
+import Input from "../../UI/Inputs/Input";
 import styles from "./AddForm.module.scss";
 
 export default function AddForm({

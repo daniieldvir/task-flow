@@ -1,9 +1,9 @@
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import ButtonSVG from "./Buttons/ButtonSVG";
-import styles from "./Pageing.module.scss";
+import ButtonSVG from "../Buttons/ButtonSVG";
+import styles from "./Pagination.module.scss";
 
-export default function Pageing({ page, totalPages, setPage, className }) {
+export default function Pagination({ page, totalPages, setPage, className }) {
   return (
     <div className={`${styles.pagingWraper} ${className}`}>
       <ButtonSVG

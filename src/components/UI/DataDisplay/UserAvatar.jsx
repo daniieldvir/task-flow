@@ -1,9 +1,9 @@
 import Snackbar from "@mui/material/Snackbar";
 import { useState } from "react";
-import { useAuth } from "../../hooks/authContext";
-import { useUsers } from "../../hooks/users";
-import ActionButton from "../UI/Buttons/ActionButton";
-import LoginModal from "../UI/Modals/LoginModal";
+import { useAuth } from "../../../hooks/authContext";
+import { useUsers } from "../../../hooks/users";
+import ActionButton from "../Buttons/ActionButton";
+import LoginModal from "../Modals/LoginModal";
 
 export default function UserAvater() {
   const { data: users = [] } = useUsers();

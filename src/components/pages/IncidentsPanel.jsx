@@ -1,6 +1,11 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
+import {
+  DEFAULT_INCIDENT_PRIORITY,
+  DEFAULT_ITEMS_PER_PAGE,
+  INCIDENT_PRIORITIES,
+} from "../../constants/config.js";
 import { useAuth } from "../../hooks/authContext";
 import {
   useCreateIncidents,
@@ -9,14 +14,16 @@ import {
   useUpdateIncidents,
 } from "../../hooks/incidents";
 import { useFilter } from "../../hooks/useFilter";
-import AddForm from "../shared/AddForm";
-import GenericTable from "../shared/GenericTable";
-import AppSnackbar from "../shared/Snackbar";
+import AddForm from "../shared/AddForm/AddForm.jsx";
+import Error from "../shared/Errors/Error.jsx";
+import LoadingSkeleton from "../shared/Feedback/LoadingSkeleton.jsx";
+import AppSnackbar from "../shared/Feedback/Snackbar.jsx";
+import GenericTable from "../shared/GenericTable/GenericTable.jsx";
 import ActionButton from "../UI/Buttons/ActionButton";
 import ButtonSVG from "../UI/Buttons/ButtonSVG";
+import Status from "../UI/DataDisplay/Status.jsx";
 import DeleteModal from "../UI/Modals/DeleteModal";
 import Modal from "../UI/Modals/Modal";
-import Status from "../UI/Status";
 import { creatMessages } from "../utils/SnackbarMessage";
 import styles from "./IncidentsPanel.module.scss";
 
@@ -33,15 +40,22 @@ export default function IncidentsPanel() {
     incident: null,
   });
 
-  const withSnackbar = (messages) => ({
-    onError: (err) => {
-      snackbarRef.current.show(err?.message || messages.error("Incident"));
-    },
-    onSuccess: () => {
-      snackbarRef.current.show(messages.success("Incident"));
-      closeModal();
-    },
-  });
+  const closeModal = useCallback(() => {
+    setModal({ type: null, incident: null });
+  }, []);
+
+  const withSnackbar = useCallback(
+    (messages) => ({
+      onError: (err) => {
+        snackbarRef.current?.show(err?.message || messages.error("Incident"));
+      },
+      onSuccess: () => {
+        snackbarRef.current?.show(messages.success("Incident"));
+        closeModal();
+      },
+    }),
+    [closeModal]
+  );
 
   const createIncidentsMutation = useCreateIncidents(
     withSnackbar(creatMessages),
@@ -53,47 +67,112 @@ export default function IncidentsPanel() {
     withSnackbar(creatMessages),
   );
 
-  const handleAddClicked = async () => {
+  const handleAddClicked = useCallback(() => {
     setModal({ type: "add", incident: null });
-  };
+  }, []);
 
-  const handleEditClicked = async (incident) => {
+  const handleEditClicked = useCallback((incident) => {
     setModal({ type: "edit", incident });
-  };
+  }, []);
 
-  const handleDeleteClicked = async (incidentId) => {
+  const handleDeleteClicked = useCallback((incidentId) => {
     setModal({ type: "delete", incident: incidentId });
-  };
+  }, []);
 
-  const handleCreate = async (incidentData) => {
-    if (modal.type === "add") {
-      createIncidentsMutation.mutate({
-        ...incidentData,
-        reportedBy: loginUser.username,
-        createDate: new Date(),
-      });
-    }
-    if (modal.type === "edit") {
-      updateIncidentsMutation.mutate({
-        id: modal.incident.id,
-        data: incidentData,
-      });
-    }
-    closeModal();
-  };
+  const handleCreate = useCallback(
+    (incidentData) => {
+      if (modal.type === "add") {
+        createIncidentsMutation.mutate({
+          ...incidentData,
+          reportedBy: loginUser?.username,
+          createDate: new Date(),
+        });
+      }
+      if (modal.type === "edit") {
+        updateIncidentsMutation.mutate({
+          id: modal.incident?.id,
+          data: incidentData,
+        });
+      }
+      closeModal();
+    },
+    [
+      modal.type,
+      modal.incident,
+      loginUser?.username,
+      createIncidentsMutation,
+      updateIncidentsMutation,
+      closeModal,
+    ]
+  );
 
-  const handleDelete = () => {
+  const handleDelete = useCallback(() => {
     if (modal.type === "delete" && modal.incident) {
       deleteIncidentsMutation.mutate(modal.incident);
     }
-  };
+  }, [modal.type, modal.incident, deleteIncidentsMutation]);
 
-  const closeModal = async () => {
-    setModal({ type: null, incident: null });
-  };
+  const columns = useMemo(
+    () => [
+      { key: "title", label: "Title" },
+      { key: "description", label: "Description" },
+      {
+        key: "priority",
+        label: "Priority",
+        render: (val) => <Status statusKey={val} />,
+      },
+      { key: "createDate", label: "Create Date" },
+      { key: "reportedBy", label: "Reported By" },
+    ],
+    []
+  );
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  const formFields = useMemo(
+    () => [
+      {
+        name: "title",
+        label: "Incident Name",
+        type: "text",
+        required: true,
+        placeholder: "Enter incident name",
+      },
+      {
+        name: "priority",
+        label: "Priority",
+        type: "select",
+        defaultValue: DEFAULT_INCIDENT_PRIORITY,
+        options: INCIDENT_PRIORITIES,
+      },
+      {
+        name: "description",
+        label: "Description",
+        type: "textarea",
+        placeholder: "Enter incident description",
+      },
+    ],
+    []
+  );
+
+  const renderActions = useCallback(
+    (incident) => (
+      <>
+        <ButtonSVG
+          icon={<EditIcon />}
+          onClick={() => handleEditClicked(incident)}
+          disabled={!isAuthenticated}
+        />
+        <ButtonSVG
+          icon={<DeleteIcon />}
+          onClick={() => handleDeleteClicked(incident.id)}
+          disabled={!isAuthenticated}
+        />
+      </>
+    ),
+    [handleEditClicked, handleDeleteClicked, isAuthenticated]
+  );
+
+  if (isLoading) return <LoadingSkeleton type="table" rows={10} />;
+  if (error) return <Error message={error.message} />;
 
   return (
     <>
@@ -110,32 +189,9 @@ export default function IncidentsPanel() {
         data={incidents}
         filter={filter}
         filterField="priority"
-        columns={[
-          { key: "title", label: "Title" },
-          { key: "description", label: "Description" },
-          {
-            key: "priority",
-            label: "Priority",
-            render: (val) => <Status statusKey={val} />,
-          },
-          { key: "createDate", label: "Create Date" },
-          { key: "reportedBy", label: "Reported By" },
-        ]}
-        renderActions={(incident) => (
-          <>
-            <ButtonSVG
-              icon={<EditIcon />}
-              onClick={() => handleEditClicked(incident)}
-              disabled={!isAuthenticated}
-            />
-            <ButtonSVG
-              icon={<DeleteIcon />}
-              onClick={() => handleDeleteClicked(incident.id)}
-              disabled={!isAuthenticated}
-            />
-          </>
-        )}
-        itemsPerPage={10}
+        columns={columns}
+        renderActions={renderActions}
+        itemsPerPage={DEFAULT_ITEMS_PER_PAGE}
       />
 
       <DeleteModal
@@ -154,32 +210,7 @@ export default function IncidentsPanel() {
           initialData={modal.incident || {}}
           onSubmit={handleCreate}
           onCancel={closeModal}
-          fields={[
-            {
-              name: "title",
-              label: "Incident Name",
-              type: "text",
-              required: true,
-              placeholder: "Enter incident name",
-            },
-            {
-              name: "priority",
-              label: "Priority",
-              type: "select",
-              defaultValue: "Low",
-              options: [
-                { label: "Low", value: "Low" },
-                { label: "Warning", value: "Warning" },
-                { label: "Critical", value: "Critical" },
-              ],
-            },
-            {
-              name: "description",
-              label: "Description",
-              type: "textarea",
-              placeholder: "Enter incident description",
-            },
-          ]}
+          fields={formFields}
         />
       </Modal>
 
