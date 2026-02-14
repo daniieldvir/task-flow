@@ -1,4 +1,4 @@
-.button {
+.actionButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -36,7 +36,7 @@
 }
 
 .active {
-  @extend .button;
+  @extend .actionButton;
   background: var(--button-action-active-bg);
   border-color: var(--button-action-active-border);
 }

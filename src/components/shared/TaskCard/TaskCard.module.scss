@@ -123,6 +123,20 @@
       display: flex;
       gap: 0.75rem;
       align-items: center;
+      width: 100%;
+    justify-content: space-between;
+
+      .avatarContainer {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+
+        
+      .avatarLabel {
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+        font-weight: 600;
+      }
 
       .avatar {
         width: 24px;
@@ -138,6 +152,8 @@
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         border: 1px solid var(--bg-secondary);
       }
+      }
+
 
       .date {
         font-size: 0.75rem;

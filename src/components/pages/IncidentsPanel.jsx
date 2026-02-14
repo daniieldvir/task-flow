@@ -22,18 +22,21 @@ import GenericTable from "../shared/GenericTable/GenericTable.jsx";
 import ActionButton from "../UI/Buttons/ActionButton";
 import ButtonSVG from "../UI/Buttons/ButtonSVG";
 import Status from "../UI/DataDisplay/Status.jsx";
+import FilterSelect from "../UI/Filters/FilterSelect.jsx";
 import DeleteModal from "../UI/Modals/DeleteModal";
 import Modal from "../UI/Modals/Modal";
-import { creatMessages } from "../utils/SnackbarMessage";
+import { FilterOptionsByPath } from "../utils/FilterOptions.jsx";
+import { createMessages } from "../utils/SnackbarMessage";
 import styles from "./IncidentsPanel.module.scss";
 
 export default function IncidentsPanel() {
   const snackbarRef = useRef();
   const { data: incidents = [], isLoading, error } = useIncidents();
   const { isAuthenticated } = useAuth();
-
-  const { filter } = useFilter();
+  const { filter, setFilter } = useFilter();
   const { loginUser } = useAuth();
+    const currentOptions = FilterOptionsByPath["/incidents"] ?? ["All"];
+
 
   const [modal, setModal] = useState({
     type: null, // 'add' | 'edit' | 'delete'
@@ -58,13 +61,13 @@ export default function IncidentsPanel() {
   );
 
   const createIncidentsMutation = useCreateIncidents(
-    withSnackbar(creatMessages),
+    withSnackbar(createMessages),
   );
   const updateIncidentsMutation = useUpdateIncidents(
-    withSnackbar(creatMessages),
+    withSnackbar(createMessages),
   );
   const deleteIncidentsMutation = useDeleteIncidents(
-    withSnackbar(creatMessages),
+    withSnackbar(createMessages),
   );
 
   const handleAddClicked = useCallback(() => {
@@ -178,11 +181,20 @@ export default function IncidentsPanel() {
     <>
       <header className={styles.header}>
         <h2>Incidents</h2>
-        <ActionButton
+        <div className={styles.headerActions}>
+          <FilterSelect
+            options={currentOptions}
+            value={filter}
+            onChange={setFilter}
+          />
+
+          <ActionButton
           onClick={handleAddClicked}
           label="Add"
           disabled={!isAuthenticated}
         />
+        </div>
+       
       </header>
 
       <GenericTable

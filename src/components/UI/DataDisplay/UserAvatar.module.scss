@@ -1,0 +1,20 @@
+.userAvatar {
+ width: 40px;
+ height: 40px;
+ border-radius: 50%;
+ color: var(--avatar-text);
+ background: var(--button-active-bg);
+font-size: 1.2rem;
+ font-weight: 600;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ cursor: pointer;
+}
+
+
+.loginButton {
+  width: 70px;
+  height: 35px;
+  cursor: pointer;
+}

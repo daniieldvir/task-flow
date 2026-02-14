@@ -1,5 +1,5 @@
 import ThemeToggle from "../UI/Buttons/ThemeToggle.jsx";
-import UserAvater from "../UI/DataDisplay/UserAvatar.jsx";
+import UserAvatar from "../UI/DataDisplay/UserAvatar.jsx";
 import styles from "./Header.module.scss";
 
 export default function Header() {
@@ -13,8 +13,8 @@ export default function Header() {
       </div>
 
       <div className={styles.right}>
+        <UserAvatar />
         <ThemeToggle />
-        <UserAvater />
       </div>
     </header>
   );

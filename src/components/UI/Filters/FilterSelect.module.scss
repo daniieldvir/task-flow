@@ -20,7 +20,8 @@
     align-items: center;
 
     .select {
-      width: 100%;
+      width: var(--filter-select-width, 100%);
+      height: var(--filter-select-height, 35px);
       padding: 0.4rem 2rem 0.4rem 0.6rem;
       border-radius: 0.6rem;
       border: 1px solid var(--select-border);

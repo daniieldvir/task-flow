@@ -21,7 +21,7 @@ import ActionButton from "../UI/Buttons/ActionButton";
 import DeleteModal from "../UI/Modals/DeleteModal";
 import Modal from "../UI/Modals/Modal";
 import {
-  creatMessages,
+  createMessages,
   deleteMessages,
   updateMessages,
 } from "../utils/SnackbarMessage";
@@ -54,7 +54,7 @@ export default function TasksPanel() {
     [closeModal]
   );
 
-  const createTaskMutation = useCreateTask(withSnackbar(creatMessages));
+  const createTaskMutation = useCreateTask(withSnackbar(createMessages));
   const updateTaskMutation = useUpdateTask(withSnackbar(updateMessages));
   const deleteTaskMutation = useDeleteTask(withSnackbar(deleteMessages));
 

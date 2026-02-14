@@ -4,8 +4,9 @@ import { useAuth } from "../../../hooks/authContext";
 import { useUsers } from "../../../hooks/users";
 import ActionButton from "../Buttons/ActionButton";
 import LoginModal from "../Modals/LoginModal";
+import styles from "./UserAvatar.module.scss";
 
-export default function UserAvater() {
+export default function UserAvatar() {
   const { data: users = [] } = useUsers();
   const { loginUser, login, logout } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -52,14 +53,20 @@ export default function UserAvater() {
 
   return (
     <>
+    {loginUser && (
       <ActionButton
-        onClick={loginUser ? handleLogout : handleLogin}
-        label={
-          !loginUser
-            ? "Login"
-            : loginUser.username || loginUser.name || "Logged In"
-        }
+        className={`${styles.userAvatar}`}
+        label={loginUser.username.charAt(0).toUpperCase()}
+        onClick={handleLogout}
       />
+    )}
+    {!loginUser && (
+      <ActionButton
+        className={styles.loginButton}
+        onClick={handleLogin}
+        label="Login"
+      />
+    )}
       <LoginModal
         isOpen={isModalOpen}
         onClose={onClose}

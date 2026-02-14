@@ -49,13 +49,17 @@ const TaskCard = ({ task, onEdit }) => {
 
       <div className={styles.cardFooter}>
         <div className={styles.metaInfo}>
-          <div
+          <div className={styles.avatarContainer}>
+            <span className={styles.avatarLabel}>Author</span>
+            <div
             className={styles.avatar}
             style={{ background: getAvatarColor(task.author || 'User') }}
             title={task.author || "Unknown"}
           >
             {task.author ? task.author.charAt(0).toUpperCase() : <PersonIcon fontSize="small" />}
           </div>
+          </div>
+         
           {(task.dueDate || task.createDate) && (
             <div className={`${styles.date} ${isOverdue ? styles.overdue : ''}`}>
               <AccessTimeIcon style={{ fontSize: 14 }} />

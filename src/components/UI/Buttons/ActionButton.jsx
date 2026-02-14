@@ -10,7 +10,7 @@ export default function ActionButton({
   return (
     <button
       type={type}
-      className={`${styles.button} ${className}`}
+      className={`${styles.actionButton} ${className}`}
       onClick={onClick}
       disabled={disabled}
     >

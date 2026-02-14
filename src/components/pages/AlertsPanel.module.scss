@@ -11,6 +11,16 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+
+  .headerActions {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+
+    --filter-select-width:200px;
+      --filter-select-height: 35px;
+    
+  }
 }
 
 

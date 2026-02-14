@@ -8,7 +8,7 @@ export const updateMessages = {
   error: (entityName) => `Failed to update ${entityName}`,
 };
 
-export const creatMessages = {
+export const createMessages = {
   success: (entityName) => `${entityName} created successfully`,
   error: (entityName) => `Failed to creat ${entityName}`,
 };
